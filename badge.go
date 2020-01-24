@@ -30,7 +30,7 @@ var rainbow []color.RGBA
 var pressed uint8
 var quit bool
 
-func badge() {
+func Badge() {
 	quit = false
 	display.FillScreen(colors[BLACK])
 
