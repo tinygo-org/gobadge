@@ -15,7 +15,7 @@ func menu() int16 {
 	options := [][]byte{
 		[]byte("Badge"),
 		[]byte("Snake Game"),
-		[]byte("QR info"),
+		[]byte("Rainbow LEDs"),
 	}
 
 	selected := int16(0)

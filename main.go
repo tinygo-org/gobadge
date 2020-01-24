@@ -5,12 +5,15 @@ import (
 	"machine"
 	"time"
 
+	"tinygo.org/x/drivers/ws2812"
+
 	"tinygo.org/x/drivers/shifter"
 	"tinygo.org/x/drivers/st7735"
 )
 
 var display st7735.Device
 var buttons shifter.Device
+var leds ws2812.Device
 var snakeGame Game
 
 func main() {
@@ -28,6 +31,11 @@ func main() {
 
 	buttons = shifter.New(shifter.EIGHT_BITS, machine.BUTTON_LATCH, machine.BUTTON_CLK, machine.BUTTON_OUT)
 	buttons.Configure()
+
+	neo := machine.NEOPIXELS
+	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
+	leds = ws2812.New(neo)
 
 	snakeGame = Game{
 		colors: []color.RGBA{
@@ -59,10 +67,24 @@ func main() {
 		case 1:
 			snakeGame.Start()
 			break
+		case 2:
+			Leds()
+			break
 		default:
 			break
 		}
 		println("LOOP")
 		time.Sleep(1 * time.Second)
 	}
+}
+
+func getRainbowRGB(i uint8) color.RGBA {
+	if i < 85 {
+		return color.RGBA{i * 3, 255 - i*3, 0, 255}
+	} else if i < 170 {
+		i -= 85
+		return color.RGBA{255 - i*3, 0, i * 3, 255}
+	}
+	i -= 170
+	return color.RGBA{0, i * 3, 255 - i*3, 255}
 }

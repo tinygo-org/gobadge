@@ -144,13 +144,3 @@ func blinkyRainbow(topline, bottomline string) {
 	}
 }
 
-func getRainbowRGB(i uint8) color.RGBA {
-	if i < 85 {
-		return color.RGBA{i * 3, 255 - i*3, 0, 255}
-	} else if i < 170 {
-		i -= 85
-		return color.RGBA{255 - i*3, 0, i * 3, 255}
-	}
-	i -= 170
-	return color.RGBA{0, i * 3, 255 - i*3, 255}
-}
