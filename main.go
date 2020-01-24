@@ -22,7 +22,6 @@ var accel lis3dh.Device
 var snakeGame Game
 
 func main() {
-	time.Sleep(4 * time.Second)
 	machine.SPI1.Configure(machine.SPIConfig{
 		SCK:       machine.SPI1_SCK_PIN,
 		MOSI:      machine.SPI1_MOSI_PIN,
@@ -48,14 +47,6 @@ func main() {
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	leds = ws2812.New(neo)
 
-	speaker := machine.SPEAKER_ENABLE
-	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	speaker.High()
-
-	bzrPin := machine.A0
-	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	bzr = buzzer.New(bzrPin)
-
 	snakeGame = Game{
 		colors: []color.RGBA{
 			color.RGBA{0, 0, 0, 255},
@@ -77,9 +68,6 @@ func main() {
 		status: START,
 	}
 
-	Music()
-
-	Accel3D()
 	for {
 		switch menu() {
 		case 0:
@@ -93,9 +81,6 @@ func main() {
 			break
 		case 3:
 			Accel3D()
-			break
-		case 4:
-			//Music()
 			break
 		default:
 			break

@@ -16,7 +16,7 @@ func menu() int16 {
 		[]byte("Badge"),
 		[]byte("Snake Game"),
 		[]byte("Rainbow LEDs"),
-		[]byte("Accel 3D"),
+		[]byte("Accelerometer"),
 		//[]byte("Music!"),
 	}
 
