@@ -43,6 +43,7 @@ type Game struct {
 }
 
 func (game *Game) Start() {
+	game.status = START
 	scoreStr := []byte("SCORE: 123")
 	display.FillScreen(game.colors[BCK])
 	play := true

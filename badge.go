@@ -28,8 +28,10 @@ var colors = []color.RGBA{
 
 var rainbow []color.RGBA
 var pressed uint8
+var quit bool
 
 func badge() {
+	quit = false
 	display.FillScreen(colors[BLACK])
 
 	rainbow = make([]color.RGBA, 256)
@@ -37,16 +39,16 @@ func badge() {
 		rainbow[i] = getRainbowRGB(uint8(i))
 	}
 
-	blinkyRainbow("technologist", "FOR HIRE")
-	myNameIsRainbow("@_conejo")
-
-	/*for {
-		pressed, _ = buttons.Read8Input()
-		if pressed&machine.BUTTON_SELECT_MASK > 0 {
+	for {
+		blinkyRainbow("technologist", "FOR HIRE")
+		if quit {
 			break
 		}
-		time.Sleep(200 * time.Millisecond)
-	}*/
+		myNameIsRainbow("@_conejo")
+		if quit {
+			break
+		}
+	}
 }
 
 func myNameIs(name string) {
@@ -80,8 +82,9 @@ func myNameIs(name string) {
 
 	// middle text
 	w32, _ = tinyfont.LineWidth(&fonts.Bold9pt7b, []byte(name))
-	tinyfont.WriteLine(&display, &fonts.Bold9pt7b, (WIDTH-int16(w32))/2, 70, []byte(name), colors[BLACK])
+	tinyfont.WriteLine(&display, &fonts.Bold9pt7b, (WIDTH-int16(w32))/2, 72, []byte(name), colors[BLACK])
 
+	// gophers
 	tinyfont.WriteLineColors(&display, &fonts.Regular32pt, WIDTH-48, 110, []byte("BE"), []color.RGBA{getRainbowRGB(100), getRainbowRGB(200)})
 }
 
@@ -90,9 +93,10 @@ func myNameIsRainbow(name string) {
 
 	w32, _ := tinyfont.LineWidth(&fonts.Bold9pt7b, []byte(name))
 	for i := 0; i < 230; i++ {
-		tinyfont.WriteLineColors(&display, &fonts.Bold9pt7b, (WIDTH-int16(w32))/2, 70, []byte(name), rainbow[i:])
+		tinyfont.WriteLineColors(&display, &fonts.Bold9pt7b, (WIDTH-int16(w32))/2, 72, []byte(name), rainbow[i:])
 		pressed, _ = buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
+			quit = true
 			break
 		}
 	}
@@ -115,6 +119,7 @@ func blinky(topline, bottomline string) {
 
 		pressed, _ = buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
+			quit = true
 			break
 		}
 	}
@@ -133,6 +138,7 @@ func blinkyRainbow(topline, bottomline string) {
 
 		pressed, _ = buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
+			quit = true
 			break
 		}
 	}
