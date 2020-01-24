@@ -69,12 +69,12 @@ func myNameIs(name string) {
 	tinydraw.FilledCircle(&display, WIDTH-r-1, HEIGHT-r-1, r, colors[RED])
 
 	// top band
-	tinydraw.FilledRectangle(&display, r, 0, WIDTH-2*r-1, r, colors[RED])
-	tinydraw.FilledRectangle(&display, 0, r, WIDTH, 26, colors[RED])
+	display.FillRectangle(r, 0, WIDTH-2*r-1, r, colors[RED])
+	display.FillRectangle(0, r, WIDTH, 26, colors[RED])
 
 	// bottom band
-	tinydraw.FilledRectangle(&display, r, HEIGHT-r-1, WIDTH-2*r-1, r+1, colors[RED])
-	tinydraw.FilledRectangle(&display, 0, HEIGHT-2*r-1, WIDTH, r, colors[RED])
+	display.FillRectangle(r, HEIGHT-r-1, WIDTH-2*r-1, r+1, colors[RED])
+	display.FillRectangle(0, HEIGHT-2*r-1, WIDTH, r, colors[RED])
 
 	// top text : my NAME is
 	w32, _ := tinyfont.LineWidth(&fonts.Regular12pt7b, []byte("my NAME is"))
@@ -143,4 +143,3 @@ func blinkyRainbow(topline, bottomline string) {
 		}
 	}
 }
-
