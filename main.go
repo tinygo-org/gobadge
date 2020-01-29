@@ -47,6 +47,16 @@ func main() {
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	leds = ws2812.New(neo)
 
+	speaker := machine.PB19
+	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	speaker.High()
+
+	bzrPin := machine.A0
+	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	bzr = buzzer.New(bzrPin)
+
+	Music()
+
 	snakeGame = Game{
 		colors: []color.RGBA{
 			color.RGBA{0, 0, 0, 255},
