@@ -5,8 +5,8 @@ import (
 	"machine"
 
 	"github.com/conejoninja/pybadge/fonts"
-	"github.com/conejoninja/tinydraw"
-	"github.com/conejoninja/tinyfont"
+	"tinygo.org/x/tinydraw"
+	"tinygo.org/x/tinyfont"
 )
 
 const (

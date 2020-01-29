@@ -5,9 +5,9 @@ import (
 	"machine"
 	"time"
 
-	"github.com/conejoninja/tinydraw"
-	"github.com/conejoninja/tinyfont"
-	"github.com/conejoninja/tinyfont/proggy"
+	"tinygo.org/x/tinydraw"
+	"tinygo.org/x/tinyfont"
+	"tinygo.org/x/tinyfont/proggy"
 )
 
 func Accel3D() {

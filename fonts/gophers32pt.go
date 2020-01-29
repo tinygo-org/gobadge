@@ -5,7 +5,7 @@
 **/
 package fonts
 
-import "github.com/conejoninja/tinyfont"
+import "tinygo.org/x/tinyfont"
 
 var Regular32ptBitmaps = []byte{
 	0x00,                                                                                                                         // ' '

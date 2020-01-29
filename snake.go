@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/conejoninja/pybadge/fonts"
-	"github.com/conejoninja/tinyfont"
+	"tinygo.org/x/tinyfont"
 )
 
 const (
