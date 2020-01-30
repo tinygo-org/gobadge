@@ -3,6 +3,7 @@ package main
 import (
 	"image/color"
 	"machine"
+	"time"
 
 	"github.com/conejoninja/pybadge/fonts"
 	"tinygo.org/x/tinydraw"
@@ -40,6 +41,10 @@ func Badge() {
 	}
 
 	for {
+		scroll("This badge", "runs", "TINYGO")
+		if quit {
+			break
+		}
 		blinkyRainbow("technologist", "FOR HIRE")
 		if quit {
 			break
@@ -142,4 +147,32 @@ func blinkyRainbow(topline, bottomline string) {
 			break
 		}
 	}
+}
+
+func scroll(topline, middleline, bottomline string) {
+	display.FillScreen(colors[WHITE])
+
+	// calculate the width of the text so we could center them later
+	w32top, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, []byte(topline))
+	w32middle, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, []byte(middleline))
+	w32bottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, []byte(bottomline))
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32top))/2, 34, []byte(topline), getRainbowRGB(200))
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32middle))/2, 60, []byte(middleline), getRainbowRGB(80))
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 100, []byte(bottomline), getRainbowRGB(120))
+
+	display.SetScrollArea(0, 0)
+	for k := 0; k < 4; k++ {
+		for i := int16(159); i >=0; i-- {
+
+			pressed, _ = buttons.Read8Input()
+			if pressed&machine.BUTTON_SELECT_MASK > 0 {
+				quit = true
+				break
+			}
+			display.SetScroll(i)
+			time.Sleep(10 * time.Millisecond)
+		}
+	}
+	display.SetScroll(0)
+	display.StopScroll()
 }
