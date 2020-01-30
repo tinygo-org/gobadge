@@ -47,7 +47,7 @@ func main() {
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	leds = ws2812.New(neo)
 
-	speaker := machine.PB19
+	speaker := machine.SPEAKER_ENABLE
 	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	speaker.High()
 
