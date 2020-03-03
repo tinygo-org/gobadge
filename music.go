@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"tinygo.org/x/tinydraw"
-	"tinygo.org/x/drivers/buzzer"
 )
 
 func Music() {
@@ -31,54 +30,57 @@ func Music() {
 		}
 		if pressed&machine.BUTTON_START_MASK > 0 {
 			tinydraw.Circle(&display, 120, 20, 10, ring)
-			bzr.Tone(buzzer.G3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(5274)
 		} else {
 			tinydraw.Circle(&display, 120, 20, 10, white)
 		}
 		if pressed&machine.BUTTON_A_MASK > 0 {
 			tinydraw.Circle(&display, 135, 55, 10, ring)
-			bzr.Tone(buzzer.F3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(1046)
 		} else {
 			tinydraw.Circle(&display, 135, 55, 10, white)
 		}
 		if pressed&machine.BUTTON_B_MASK > 0 {
 			tinydraw.Circle(&display, 120, 70, 10, ring)
-			bzr.Tone(buzzer.E3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(1975)
 		} else {
 			tinydraw.Circle(&display, 120, 70, 10, white)
 		}
 
 		if pressed&machine.BUTTON_LEFT_MASK > 0 {
 			tinydraw.Circle(&display, 25, 64, 10, ring)
-			bzr.Tone(buzzer.A3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(329)
 		} else {
 			tinydraw.Circle(&display, 25, 64, 10, white)
 		}
 		if pressed&machine.BUTTON_RIGHT_MASK > 0 {
 			tinydraw.Circle(&display, 55, 64, 10, ring)
-			bzr.Tone(buzzer.C3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(739)
 		} else {
 			tinydraw.Circle(&display, 55, 64, 10, white)
 		}
 		if pressed&machine.BUTTON_UP_MASK > 0 {
 			tinydraw.Circle(&display, 40, 49, 10, ring)
-			bzr.Tone(buzzer.B3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(369)
 		} else {
 			tinydraw.Circle(&display, 40, 49, 10, white)
 		}
 		if pressed&machine.BUTTON_DOWN_MASK > 0 {
 			tinydraw.Circle(&display, 40, 79, 10, ring)
-			bzr.Tone(buzzer.D3, buzzer.Eighth)
-			time.Sleep(100 * time.Millisecond)
+			tone(523)
 		} else {
 			tinydraw.Circle(&display, 40, 79, 10, white)
 		}
 		time.Sleep(50 * time.Millisecond)
+	}
+}
+
+func tone(tone int) {
+	for i := 0; i < 10; i++ {
+		bzrPin.High()
+		time.Sleep(time.Duration(tone) * time.Microsecond)
+
+		bzrPin.Low()
+		time.Sleep(time.Duration(tone) * time.Microsecond)
 	}
 }

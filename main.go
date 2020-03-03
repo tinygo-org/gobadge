@@ -53,9 +53,6 @@ func main() {
 
 	bzrPin := machine.A0
 	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	bzr = buzzer.New(bzrPin)
-
-	Music()
 
 	snakeGame = Game{
 		colors: []color.RGBA{
