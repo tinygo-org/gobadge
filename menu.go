@@ -17,7 +17,7 @@ func menu() int16 {
 		[]byte("Snake Game"),
 		[]byte("Rainbow LEDs"),
 		[]byte("Accelerometer"),
-		//[]byte("Music!"),
+		[]byte("Music!"),
 	}
 
 	selected := int16(0)

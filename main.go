@@ -5,7 +5,6 @@ import (
 	"machine"
 	"time"
 
-	"tinygo.org/x/drivers/buzzer"
 	"tinygo.org/x/drivers/lis3dh"
 
 	"tinygo.org/x/drivers/ws2812"
@@ -17,7 +16,7 @@ import (
 var display st7735.Device
 var buttons shifter.Device
 var leds ws2812.Device
-var bzr buzzer.Device
+var bzrPin machine.Pin
 var accel lis3dh.Device
 var snakeGame Game
 
@@ -47,12 +46,12 @@ func main() {
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	leds = ws2812.New(neo)
 
+	bzrPin = machine.A0
+	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
 	speaker := machine.SPEAKER_ENABLE
 	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	speaker.High()
-
-	bzrPin := machine.A0
-	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
 
 	snakeGame = Game{
 		colors: []color.RGBA{
@@ -88,6 +87,9 @@ func main() {
 			break
 		case 3:
 			Accel3D()
+			break
+		case 4:
+			Music()
 			break
 		default:
 			break
