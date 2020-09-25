@@ -2,8 +2,9 @@ package main
 
 import (
 	"image/color"
-	"machine"
 	"time"
+
+	"tinygo.org/x/drivers/shifter"
 
 	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
@@ -12,12 +13,12 @@ import (
 
 func menu() int16 {
 	display.FillScreen(color.RGBA{0, 0, 0, 255})
-	options := [][]byte{
-		[]byte("Badge"),
-		[]byte("Snake Game"),
-		[]byte("Rainbow LEDs"),
-		[]byte("Accelerometer"),
-		[]byte("Music!"),
+	options := []string{
+		"Badge",
+		"Snake Game",
+		"Rainbow LEDs",
+		"Accelerometer",
+		"Music!",
 	}
 
 	selected := int16(0)
@@ -29,24 +30,28 @@ func menu() int16 {
 
 	tinydraw.FilledCircle(&display, 32, 37, 2, color.RGBA{155, 155, 255, 255})
 
-	var pressed uint8
-	var oldPressed uint8
+	released := true
 	for {
-		pressed, _ = buttons.Read8Input()
-		if pressed != oldPressed && pressed&machine.BUTTON_UP_MASK > 0 && selected > 0 {
+		pressed, _ := buttons.ReadInput()
+
+		if released && buttons.Pins[shifter.BUTTON_UP].Get() && selected > 0 {
 			selected--
 			tinydraw.FilledCircle(&display, 32, 37+10*selected, 2, color.RGBA{155, 155, 255, 255})
 			tinydraw.FilledCircle(&display, 32, 37+10*(selected+1), 2, color.RGBA{0, 0, 0, 255})
 		}
-		if pressed != oldPressed && pressed&machine.BUTTON_DOWN_MASK > 0 && selected < (numOpts-1) {
+		if released && buttons.Pins[shifter.BUTTON_DOWN].Get() && selected < (numOpts-1) {
 			selected++
 			tinydraw.FilledCircle(&display, 32, 37+10*selected, 2, color.RGBA{155, 155, 255, 255})
 			tinydraw.FilledCircle(&display, 32, 37+10*(selected-1), 2, color.RGBA{0, 0, 0, 255})
 		}
-		if pressed != oldPressed && pressed&machine.BUTTON_START_MASK > 0 {
+		if released && buttons.Pins[shifter.BUTTON_START].Get() {
 			break
 		}
-		oldPressed = pressed
+		if pressed == 0 {
+			released = true
+		} else {
+			released = false
+		}
 		time.Sleep(200 * time.Millisecond)
 	}
 	return selected

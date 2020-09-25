@@ -52,8 +52,8 @@ func (game *Game) Start() {
 		case START:
 			display.FillScreen(game.colors[BCK])
 
-			tinyfont.WriteLine(&display, &fonts.Bold24pt7b, 0, 50, []byte("SNAKE"), game.colors[TEXT])
-			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 100, []byte("Press START"), game.colors[TEXT])
+			tinyfont.WriteLine(&display, &fonts.Bold24pt7b, 0, 50, "SNAKE", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
 
 			time.Sleep(2 * time.Second)
 			for game.status == START {
@@ -74,9 +74,9 @@ func (game *Game) Start() {
 			scoreStr[8] = 48 + uint8(((game.snake.length-3)/10)%10)
 			scoreStr[9] = 48 + uint8((game.snake.length-3)%10)
 
-			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 50, []byte("GAME OVER"), game.colors[TEXT])
-			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 100, []byte("Press START"), game.colors[TEXT])
-			tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, scoreStr, game.colors[TEXT])
+			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 50, "GAME OVER", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), game.colors[TEXT])
 
 			time.Sleep(2 * time.Second)
 			for game.status == GAMEOVER {

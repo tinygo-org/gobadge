@@ -13,8 +13,8 @@ func Music() {
 	white := color.RGBA{255, 255, 255, 255}
 	display.FillScreen(white)
 
-	tinyfont.WriteLine(&display, &fonts.Bold24pt7b, 0, 50, []byte("MUSIC"), color.RGBA{0, 100, 250, 255})
-	tinyfont.WriteLine(&display, &fonts.Bold9pt7b, 20, 100, []byte("Press any key"), color.RGBA{200, 0, 0, 255})
+	tinyfont.WriteLine(&display, &fonts.Bold24pt7b, 0, 50, "MUSIC", color.RGBA{0, 100, 250, 255})
+	tinyfont.WriteLine(&display, &fonts.Bold9pt7b, 20, 100, "Press any key", color.RGBA{200, 0, 0, 255})
 
 	for {
 		pressed, _ := buttons.Read8Input()

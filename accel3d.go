@@ -22,13 +22,13 @@ func Accel3D() {
 	tinydraw.Rectangle(&display, 26, 40, 132, 7, black)
 	tinydraw.Rectangle(&display, 26, 50, 132, 7, black)
 
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 10, 80, []byte("Move the PyBadge to see"), black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 14, 90, []byte("the accelerometer in"), black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 60, 100, []byte("action."), black)
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 10, 80, "Move the PyBadge to see", black)
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 14, 90, "the accelerometer in", black)
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 60, 100, "action.", black)
 
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 36, []byte("X:"), black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 46, []byte("Y:"), black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 56, []byte("Z:"), black)
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 36, "X:", black)
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 46, "Y:", black)
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 56, "Z:", black)
 
 	x, y, z := accel.ReadRawAcceleration()
 	for {
