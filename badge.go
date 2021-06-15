@@ -5,7 +5,7 @@ import (
 	"machine"
 	"time"
 
-	"github.com/conejoninja/pybadge/fonts"
+	"github.com/tinygo-org/gobadge/fonts"
 	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
 )
@@ -49,7 +49,7 @@ func Badge() {
 		if quit {
 			break
 		}
-		myNameIsRainbow("@_conejo")
+		myNameIsRainbow("@deadprogram")
 		if quit {
 			break
 		}
@@ -162,7 +162,7 @@ func scroll(topline, middleline, bottomline string) {
 
 	display.SetScrollArea(0, 0)
 	for k := 0; k < 4; k++ {
-		for i := int16(159); i >=0; i-- {
+		for i := int16(159); i >= 0; i-- {
 
 			pressed, _ = buttons.Read8Input()
 			if pressed&machine.BUTTON_SELECT_MASK > 0 {

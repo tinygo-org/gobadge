@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/conejoninja/pybadge/fonts"
+	"github.com/tinygo-org/gobadge/fonts"
 	"tinygo.org/x/tinyfont"
 )
 
