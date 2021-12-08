@@ -12,6 +12,8 @@ https://www.adafruit.com/product/4200
 
 - Change directories into the directory with the repo
 
+- Customize the file `data.go` with your own name and information
+
 - Connect your Pybadge to your computer using a USB cable
 
 - Run this command to compile and flash the code to your Pybadge:
