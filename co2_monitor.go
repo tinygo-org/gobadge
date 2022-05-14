@@ -1,6 +1,3 @@
-//go:build co2
-// +build co2
-
 package main
 
 import (
@@ -12,7 +9,6 @@ import (
 	"tinygo.org/x/drivers/scd4x"
 
 	"github.com/tinygo-org/gobadge/fonts"
-	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
 )
 
@@ -29,14 +25,69 @@ func CO2Monitor() {
 		println(err)
 	}
 
+	// Set permanent data
+	display.FillScreen(colors[WHITE])
+	w32, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "CO  Monitor")
+	xPPM := (WIDTH - int16(w32)) / 2
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xPPM, 30, "CO  Monitor", colors[BLACK])
+	w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, "CO")
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32), 33, "2", colors[BLACK])
+	// move it one pixel to make it looks like BOLD font
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32)+1, 33, "2", colors[BLACK])
+
+	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "PPM")
+	xPPM = WIDTH - int16(w32) - 4
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM, 64, "PPM", colors[BLACK])
+
+	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "TEMP.")
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, ((WIDTH/2)-int16(w32))/2, 94, "TMP", colors[BLACK])
+
+	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "RH")
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)+((WIDTH/2)-int16(w32))/2, 94, "RH", colors[BLACK])
+
+	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "ºC")
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)-int16(w32)-4, 110, "ºC", colors[BLACK])
+
+	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "%")
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, WIDTH-int16(w32)-4, 110, "%", colors[BLACK])
+
+	oldCO2 := ""
+	oldTemp := ""
+	oldHumidity := ""
+	var xCO2 int16
+	var xTemp int16
+	var xHumidity int16
+
 	for {
 		co2, err := sensor.ReadCO2()
 		if err != nil {
 			println(err)
 		}
 
-		DisplayCO2("TinyGo CO2", strconv.Itoa(int(co2)))
-		ShowCO2Level(int32(co2))
+		ShowCO2Level(co2)
+
+		// Clear old readings
+		tinyfont.WriteLine(&display, &fonts.Bold24pt7b, xCO2, 77, oldCO2, colors[WHITE])
+		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xTemp, 120, oldTemp, colors[WHITE])
+		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xHumidity, 120, oldHumidity, colors[WHITE])
+
+		// Display new readings
+		oldCO2 = strconv.Itoa(int(co2))
+		w32, _ = tinyfont.LineWidth(&fonts.Bold24pt7b, oldCO2)
+		xCO2 = xPPM - int16(w32) - 10
+		tinyfont.WriteLine(&display, &fonts.Bold24pt7b, xCO2, 77, oldCO2, colors[BLACK])
+
+		value, _ := sensor.ReadTemperature()
+		oldTemp = strconv.FormatFloat(float64(value), 'f', 1, 64)
+		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldTemp)
+		xTemp = ((WIDTH/2)-int16(w32))/2 - 6
+		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xTemp, 120, oldTemp, colors[BLACK])
+
+		value, _ = sensor.ReadHumidity()
+		oldHumidity = strconv.FormatFloat(float64(value), 'f', 1, 64)
+		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldHumidity)
+		xHumidity = (WIDTH / 2) + ((WIDTH/2)-int16(w32))/2 - 6
+		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xHumidity, 120, oldHumidity, colors[BLACK])
 
 		pressed, _ := buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
@@ -49,13 +100,19 @@ func CO2Monitor() {
 	Clear()
 	Clear()
 
-	time.Sleep(50*time.Millisecond)
+	time.Sleep(50 * time.Millisecond)
 
 	display.EnableBacklight(true)
 }
 
 // ShowCO2Level shows the current CO2 level on the LEDs.
-func ShowCO2Level(co2 int32)  {
+func ShowCO2Level(co2 int32) {
+	if co2 < 0 {
+		co2 = 0
+	}
+	if co2 > 2000 {
+		co2 = 2000
+	}
 	// color
 	var c color.RGBA
 	switch {
@@ -68,54 +125,31 @@ func ShowCO2Level(co2 int32)  {
 	}
 
 	// how many to light up
-	howmany := int(Rescale(co2, 0, 2000, 0, int32(len(ledColors))))
+	howmany := int(co2 / 400)
+
+	println(howmany)
+	if howmany == 0 {
+		return
+	}
 
 	// clear old colors
 	for i := 0; i < len(ledColors); i++ {
-		ledColors[i] = color.RGBA{0,0,0,0}
+		if i < howmany {
+			ledColors[i] = c
+		} else {
+			ledColors[i] = color.RGBA{0, 0, 0, 0}
+		}
 	}
 
-	// fillin new colors
-	for i := 0; i < howmany; i++ {
-		ledColors[i] = c
-	}
-
-	leds.WriteColors(ledColors)	
+	// uncomment this for bug
+	//leds.WriteColors(ledColors)
 }
 
 func Clear() {
 	for i := 0; i < len(ledColors); i++ {
-		ledColors[i] = color.RGBA{0,0,0,0}
+		ledColors[i] = color.RGBA{0, 0, 0, 0}
 	}
 	leds.WriteColors(ledColors)
 
-	time.Sleep(50*time.Millisecond)
-}
-
-// Rescale performs a direct linear rescaling of an integer from one scale to another.
-//
-func Rescale(input, fromMin, fromMax, toMin, toMax int32) int32 {
-	switch {
-	case input < fromMin:
-		input = fromMin
-	case input > fromMax:
-		input = fromMax
-	}
-
-	return (input-fromMin)*(toMax-toMin)/(fromMax-fromMin) + toMin
-}
-
-// DisplayCO2 shows the current CO2 level on the screen.
-func DisplayCO2(topline, bottomline string) {
-	// calculate the width of the text so we can center them
-	w32top, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, topline)
-	w32bottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, bottomline)
-	w32maxbottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "9999")
-
-	// clear part of screen to reduce flickering
-	tinydraw.FilledRectangle(&display, (WIDTH-int16(w32maxbottom+10))/2, 80, int16(w32maxbottom+10), 100, colors[WHITE])
-
-	// show black text
-	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32top))/2, 50, topline, colors[BLACK])
-	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 100, bottomline, colors[BLACK])
+	time.Sleep(50 * time.Millisecond)
 }
