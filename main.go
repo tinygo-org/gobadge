@@ -21,7 +21,6 @@ var accel lis3dh.Device
 var snakeGame Game
 
 func main() {
-	time.Sleep(5*time.Second)
 	machine.SPI1.Configure(machine.SPIConfig{
 		SCK:       machine.SPI1_SCK_PIN,
 		SDO:       machine.SPI1_SDO_PIN,
@@ -42,6 +41,9 @@ func main() {
 	buttons = shifter.NewButtons()
 	buttons.Configure()
 
+
+	//menu()
+
 	neo := machine.NEOPIXELS
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	leds = ws2812.New(neo)
@@ -53,7 +55,7 @@ func main() {
 	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	speaker.High()
 
-	snakeGame = Game{
+	/*snakeGame = Game{
 		colors: []color.RGBA{
 			color.RGBA{0, 0, 0, 255},
 			color.RGBA{0, 200, 0, 255},
@@ -72,7 +74,7 @@ func main() {
 		appleX: -1,
 		appleY: -1,
 		status: START,
-	}
+	} */
 
 	for {
 		switch menu() {
@@ -80,7 +82,8 @@ func main() {
 			Badge()
 			break
 		case 1:
-			snakeGame.Start()
+			//snakeGame.Start()
+			CO2Monitor()
 			break
 		case 2:
 			Leds()
