@@ -35,7 +35,7 @@ func CO2Monitor() {
 			println(err)
 		}
 
-		DisplayCO2("CO2", strconv.Itoa(int(co2)))
+		DisplayCO2("TinyGo CO2", strconv.Itoa(int(co2)))
 		ShowCO2Level(int32(co2))
 
 		pressed, _ := buttons.Read8Input()
@@ -68,7 +68,7 @@ func ShowCO2Level(co2 int32)  {
 	}
 
 	// how many to light up
-	howmany := int(Rescale(co2, 0, 1600, 0, int32(len(ledColors))))
+	howmany := int(Rescale(co2, 0, 2000, 0, int32(len(ledColors))))
 
 	// clear old colors
 	for i := 0; i < len(ledColors); i++ {
@@ -95,6 +95,13 @@ func Clear() {
 // Rescale performs a direct linear rescaling of an integer from one scale to another.
 //
 func Rescale(input, fromMin, fromMax, toMin, toMax int32) int32 {
+	switch {
+	case input < fromMin:
+		input = fromMin
+	case input > fromMax:
+		input = fromMax
+	}
+
 	return (input-fromMin)*(toMax-toMin)/(fromMax-fromMin) + toMin
 }
 
@@ -103,9 +110,10 @@ func DisplayCO2(topline, bottomline string) {
 	// calculate the width of the text so we can center them
 	w32top, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, topline)
 	w32bottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, bottomline)
+	w32maxbottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "9999")
 
 	// clear part of screen to reduce flickering
-	tinydraw.FilledRectangle(&display, (WIDTH-int16(w32bottom))/2, 80, int16(w32bottom), 100, colors[WHITE])
+	tinydraw.FilledRectangle(&display, (WIDTH-int16(w32maxbottom+10))/2, 80, int16(w32maxbottom+10), 100, colors[WHITE])
 
 	// show black text
 	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32top))/2, 50, topline, colors[BLACK])
