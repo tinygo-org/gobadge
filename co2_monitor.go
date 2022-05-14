@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"time"
 
-	"tinygo.org/x/drivers/scd4x"
-
 	"github.com/tinygo-org/gobadge/fonts"
 	"tinygo.org/x/tinyfont"
+
+	"tinygo.org/x/drivers/scd4x"
 )
 
 var ledColors = make([]color.RGBA, 5)
@@ -25,8 +25,6 @@ func CO2Monitor() {
 		println(err)
 	}
 
-	// Set permanent data
-	display.FillScreen(colors[WHITE])
 	w32, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "CO  Monitor")
 	xPPM := (WIDTH - int16(w32)) / 2
 	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xPPM, 30, "CO  Monitor", colors[BLACK])
@@ -46,7 +44,7 @@ func CO2Monitor() {
 	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)+((WIDTH/2)-int16(w32))/2, 94, "RH", colors[BLACK])
 
 	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "ºC")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)-int16(w32)-4, 110, "ºC", colors[BLACK])
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)-int16(w32)-4, 112, "ºC", colors[BLACK])
 
 	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "%")
 	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, WIDTH-int16(w32)-4, 110, "%", colors[BLACK])
@@ -78,12 +76,14 @@ func CO2Monitor() {
 		tinyfont.WriteLine(&display, &fonts.Bold24pt7b, xCO2, 77, oldCO2, colors[BLACK])
 
 		value, _ := sensor.ReadTemperature()
+		println("TEMP", value)
 		oldTemp = strconv.FormatFloat(float64(value), 'f', 1, 64)
 		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldTemp)
 		xTemp = ((WIDTH/2)-int16(w32))/2 - 6
 		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xTemp, 120, oldTemp, colors[BLACK])
 
 		value, _ = sensor.ReadHumidity()
+		println("HUMD", value)
 		oldHumidity = strconv.FormatFloat(float64(value), 'f', 1, 64)
 		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldHumidity)
 		xHumidity = (WIDTH / 2) + ((WIDTH/2)-int16(w32))/2 - 6
@@ -125,12 +125,7 @@ func ShowCO2Level(co2 int32) {
 	}
 
 	// how many to light up
-	howmany := int(co2 / 400)
-
-	println(howmany)
-	if howmany == 0 {
-		return
-	}
+	howmany := int(co2/400) + 1
 
 	// clear old colors
 	for i := 0; i < len(ledColors); i++ {
@@ -141,8 +136,7 @@ func ShowCO2Level(co2 int32) {
 		}
 	}
 
-	// uncomment this for bug
-	//leds.WriteColors(ledColors)
+	leds.WriteColors(ledColors)
 }
 
 func Clear() {

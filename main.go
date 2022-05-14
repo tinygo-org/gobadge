@@ -41,8 +41,6 @@ func main() {
 	buttons = shifter.NewButtons()
 	buttons.Configure()
 
-	CO2Monitor()
-
 	//menu()
 
 	neo := machine.NEOPIXELS
