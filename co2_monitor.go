@@ -12,6 +12,7 @@ import (
 	"tinygo.org/x/drivers/scd4x"
 
 	"github.com/tinygo-org/gobadge/fonts"
+	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
 )
 
@@ -19,8 +20,8 @@ var ledColors = make([]color.RGBA, 5)
 
 func CO2Monitor() {
 	display.EnableBacklight(true)
-	display.FillScreen(color.RGBA{0,0,0,255})
-	
+	display.FillScreen(colors[WHITE])
+
 	sensor := scd4x.New(machine.I2C0)
 	sensor.Configure()
 
@@ -53,6 +54,7 @@ func CO2Monitor() {
 	display.EnableBacklight(true)
 }
 
+// ShowCO2Level shows the current CO2 level on the LEDs.
 func ShowCO2Level(co2 int32)  {
 	// color
 	var c color.RGBA
@@ -68,6 +70,12 @@ func ShowCO2Level(co2 int32)  {
 	// how many to light up
 	howmany := int(Rescale(co2, 0, 1600, 0, int32(len(ledColors))))
 
+	// clear old colors
+	for i := 0; i < len(ledColors); i++ {
+		ledColors[i] = color.RGBA{0,0,0,0}
+	}
+
+	// fillin new colors
 	for i := 0; i < howmany; i++ {
 		ledColors[i] = c
 	}
@@ -80,40 +88,26 @@ func Clear() {
 		ledColors[i] = color.RGBA{0,0,0,0}
 	}
 	leds.WriteColors(ledColors)
+
 	time.Sleep(50*time.Millisecond)
 }
 
 // Rescale performs a direct linear rescaling of an integer from one scale to another.
 //
-// For example:
-//
-//		val := gopherbot.Rescale(25, 0, 100, 0, 10)
-//
-// This re-scales the number 25 from a scale that ranges from 0-100,
-// to a scale that ranges from 0-10.
 func Rescale(input, fromMin, fromMax, toMin, toMax int32) int32 {
 	return (input-fromMin)*(toMax-toMin)/(fromMax-fromMin) + toMin
 }
 
+// DisplayCO2 shows the current CO2 level on the screen.
 func DisplayCO2(topline, bottomline string) {
-	display.FillScreen(colors[WHITE])
-
-	// calculate the width of the text so we could center them later
+	// calculate the width of the text so we can center them
 	w32top, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, topline)
 	w32bottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, bottomline)
-	//for i := int16(0); i < 10; i++ {
-		// show black text
-		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32top))/2, 50, topline, colors[BLACK])
-		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 100, bottomline, colors[BLACK])
 
-		// // repeat the other way around
-		// tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32top))/2, 50, topline, colors[WHITE])
-		// tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 100, bottomline, colors[WHITE])
+	// clear part of screen to reduce flickering
+	tinydraw.FilledRectangle(&display, (WIDTH-int16(w32bottom))/2, 80, int16(w32bottom), 100, colors[WHITE])
 
-		// pressed, _ = buttons.Read8Input()
-		// if pressed&machine.BUTTON_SELECT_MASK > 0 {
-		// 	quit = true
-		// 	break
-		// }
-	//}
+	// show black text
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32top))/2, 50, topline, colors[BLACK])
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 100, bottomline, colors[BLACK])
 }
