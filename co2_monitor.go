@@ -25,20 +25,20 @@ func CO2Monitor() {
 		println(err)
 	}
 
-	w32, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "CO  Monitor")
-	xPPM := (WIDTH - int16(w32)) / 2
-	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xPPM, 30, "CO  Monitor", colors[BLACK])
-	w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, "CO")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32), 33, "2", colors[BLACK])
+	w32, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "TinyGo CO")
+	xPPM := ((WIDTH - int16(w32)) / 2) - 3
+	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xPPM, 30, "TinyGo CO", colors[BLACK])
+	//w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, "TinyGo CO")
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32)+1, 33, "2", colors[RED])
 	// move it one pixel to make it looks like BOLD font
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32)+1, 33, "2", colors[BLACK])
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32)+2, 33, "2", colors[RED])
 
 	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "PPM")
 	xPPM = WIDTH - int16(w32) - 4
 	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM, 64, "PPM", colors[BLACK])
 
 	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "TEMP.")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, ((WIDTH/2)-int16(w32))/2, 94, "TMP", colors[BLACK])
+	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, ((WIDTH/2)-int16(w32))/2, 94, "TEMP", colors[BLACK])
 
 	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "RH")
 	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)+((WIDTH/2)-int16(w32))/2, 94, "RH", colors[BLACK])
@@ -77,7 +77,7 @@ func CO2Monitor() {
 
 		value, _ := sensor.ReadTemperature()
 		println("TEMP", value)
-		oldTemp = strconv.FormatFloat(float64(value), 'f', 1, 64)
+		oldTemp = strconv.FormatFloat(float64(value)/1000, 'f', 1, 64)
 		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldTemp)
 		xTemp = ((WIDTH/2)-int16(w32))/2 - 6
 		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xTemp, 120, oldTemp, colors[BLACK])
