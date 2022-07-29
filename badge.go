@@ -41,6 +41,10 @@ func Badge() {
 	}
 
 	for {
+		logo()
+		if quit {
+			break
+		}
 		scroll("This badge", "runs", "TINYGO")
 		if quit {
 			break
@@ -50,6 +54,10 @@ func Badge() {
 			break
 		}
 		blinkyRainbow(YourTitle1, YourTitle2)
+		if quit {
+			break
+		}
+		blinkyRainbow("Hack Session", "29th All Day")
 		if quit {
 			break
 		}
@@ -175,4 +183,9 @@ func scroll(topline, middleline, bottomline string) {
 	}
 	display.SetScroll(0)
 	display.StopScroll()
+}
+
+func logo() {
+	display.FillRectangleWithBuffer(0, 0, 160, 128, logoBuffer)
+	time.Sleep(5 * time.Second)
 }

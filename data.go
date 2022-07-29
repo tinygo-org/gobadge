@@ -1,7 +1,7 @@
 package main
 
 const (
-	YourName   = "@deadprogram"
+	YourName   = "@_conejo"
 	YourTitle1 = "technologist"
 	YourTitle2 = "FOR HIRE"
 )
