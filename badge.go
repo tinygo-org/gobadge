@@ -186,6 +186,6 @@ func scroll(topline, middleline, bottomline string) {
 }
 
 func logo() {
-	display.FillRectangleWithBuffer(0, 0, 160, 128, logoBuffer)
+	display.FillRectangleWithBuffer(0, 0, 160, 128, logoRGBA)
 	time.Sleep(5 * time.Second)
 }
