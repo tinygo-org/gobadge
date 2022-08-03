@@ -22,4 +22,21 @@ https://www.adafruit.com/product/4200
 tinygo flash -target pybadge .
 ```
 
-Congratulations! It is now a GoBadge.
+# Add an image
+
+- Create an image with a 160x128 pixels size, copy it into `cmd/assets` folder.  
+For the moment only jpeg images are supported.  
+- In `cmd/main.go` replace the input with the path of your file:
+```go
+logos.GenerateLogoRGBAFile("cmd/assets/your-file.jpeg")
+```
+
+You can run:
+```bash
+make flash-gcuk
+```
+
+It will generate for you the image into a `[]color.RGBA` and store it in a variable.
+
+
+👏 Congratulations! It is now a GoBadge.
