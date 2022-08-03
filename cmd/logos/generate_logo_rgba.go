@@ -28,7 +28,7 @@ func generateLogoRGBA(filepath string) []color.RGBA {
 	for y := 0; y < img.Bounds().Max.Y; y++ {
 		for x := 0; x < img.Bounds().Max.X; x++ {
 			r, g, b, _ := img.At(x, y).RGBA()
-			colors = append(colors, color.RGBA{R: uint8(r), G: uint8(g), B: uint8(b), A: uint8(255)})
+			colors = append(colors, color.RGBA{R: uint8(r >> 8), G: uint8(g >> 8), B: uint8(b >> 8), A: uint8(255)})
 		}
 	}
 

@@ -19,24 +19,70 @@ https://www.adafruit.com/product/4200
 - Run this command to compile and flash the code to your Pybadge:
 
 ```
+make flash
+```
+
+or 
+
+```
 tinygo flash -target pybadge .
 ```
 
-# Add an image
+- To display a conference logo on your badge, use of the following target:
+```
+make flash-gceu
+make flash-gcuk
+make flash-gcus
+```
+
+# Add an new logo
 
 - Create an image with a 160x128 pixels size, copy it into `cmd/assets` folder.  
 For the moment only jpeg images are supported.  
-- In `cmd/main.go` replace the input with the path of your file:
+- In `cmd/main.go` add the path to your file here
 ```go
-logos.GenerateLogoRGBAFile("cmd/assets/your-file.jpeg")
+const (
+gopherconEU22Logo = "./cmd/assets/gopherconeu-2022.jpg"
+gopherconUK22Logo = "./cmd/assets/gopherconuk-2022.jpg"
+gopherconUS22Logo = "./cmd/assets/gopherconus-2022.jpg"
+yourPathLogoHere = "./your/path/to/the/logo"
+)
+```
+- Add the corresponding flag to the conf map:
+```go
+func confs() map[string]string {
+	return map[string]string{
+		"gceu22"    : gopherconEU22Logo,
+		"gcuk22"    : gopherconUK22Logo,
+		"gcus22"    : gopherconUS22Logo,
+		"flagLogo"  : yourPathLogoHere,
+	}
+}
+```
+
+Add a new target to the Makefile:
+```bash
+flash-yourconf:
+	go run cmd/main.go -conf=flagLogo
+	tinygo flash -target pybadge .
 ```
 
 You can run:
 ```bash
-make flash-gcuk
+make flash-yourconf
 ```
 
-It will generate for you the image into a `[]color.RGBA` and store it in a variable.
+It will use `cmd/logos/logo-template.txt` to generate the image into a `[]color.RGBA`.
+Then it is stored in variable in `logo.go` file.
+```go
+package main
+
+import "image/color"
+
+var logoRGBA = []color.RGBA{ {255, 255, 255} }
+```
+
+After the image has been generated, the make command will flash it to the board.
 
 
 👏 Congratulations! It is now a GoBadge.
