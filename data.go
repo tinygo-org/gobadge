@@ -1,7 +1,8 @@
 package main
 
+// Replace with your data.
 const (
-	YourName   = "@deadprogram"
+	YourName   = "@_conejo"
 	YourTitle1 = "technologist"
 	YourTitle2 = "FOR HIRE"
 )
