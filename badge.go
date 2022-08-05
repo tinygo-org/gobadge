@@ -21,6 +21,10 @@ const (
 	RED
 )
 
+const (
+	logoDisplayTime = 10 * time.Second
+)
+
 var colors = []color.RGBA{
 	color.RGBA{0, 0, 0, 255},
 	color.RGBA{255, 255, 255, 255},
@@ -160,7 +164,7 @@ func blinkyRainbow(topline, bottomline string) {
 func scroll(topline, middleline, bottomline string) {
 	display.FillScreen(colors[WHITE])
 
-	// calculate the width of the text so we could center them later
+	// calculate the width of the text, so we could center them later
 	w32top, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, topline)
 	w32middle, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, middleline)
 	w32bottom, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, bottomline)
@@ -186,6 +190,6 @@ func scroll(topline, middleline, bottomline string) {
 }
 
 func logo() {
-	display.FillRectangleWithBuffer(0, 0, 160, 128, logoBuffer)
-	time.Sleep(5 * time.Second)
+	display.FillRectangleWithBuffer(0, 0, WIDTH, HEIGHT, logoRGBA)
+	time.Sleep(logoDisplayTime)
 }
