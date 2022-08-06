@@ -11,10 +11,11 @@ const (
 	gopherconEU22Logo = "./cmd/assets/gopherconeu-2022.jpg"
 	gopherconUK22Logo = "./cmd/assets/gopherconuk-2022.jpg"
 	gopherconUS22Logo = "./cmd/assets/gopherconus-2022.jpg"
+	tinygoLogo        = "./cmd/assets/tinygo.jpg"
 )
 
 func main() {
-	conf := flag.String("conf", "", "Choose the conference logo you want to (e.g.: gceu22, gcuk22, gcus22)")
+	conf := flag.String("conf", "", "Choose the conference logo you want to (e.g.: tinygo, gceu22, gcuk22, gcus22)")
 	flag.Parse()
 
 	c := confs()
@@ -32,5 +33,6 @@ func confs() map[string]string {
 		"gceu22": gopherconEU22Logo,
 		"gcuk22": gopherconUK22Logo,
 		"gcus22": gopherconUS22Logo,
+		"tinygo": tinygoLogo,
 	}
 }
