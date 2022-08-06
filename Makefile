@@ -12,3 +12,8 @@ flash-gcuk:
 flash-gcus:
 	go run cmd/main.go -conf=gcus22
 	tinygo flash -target pybadge .
+
+flash-tinygo:
+	go run cmd/main.go -conf=tinygo
+	tinygo flash -target pybadge .
+
