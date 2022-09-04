@@ -15,7 +15,7 @@ const (
 )
 
 func main() {
-	conf := flag.String("conf", "", "Choose the conference logo you want to (e.g.: tinygo, gceu22, gcuk22, gcus22)")
+	conf := flag.String("conf", tinygoLogo, "Choose the conference logo you want to (e.g.: tinygo, gceu22, gcuk22, gcus22)")
 	flag.Parse()
 
 	c := confs()

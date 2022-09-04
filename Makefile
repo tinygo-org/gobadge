@@ -1,5 +1,5 @@
 flash:
-	go run cmd/main.go -conf=tinygo
+	go run cmd/main.go
 	tinygo flash -target pybadge .
 
 flash-gceu:
