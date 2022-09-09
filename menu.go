@@ -15,7 +15,7 @@ func menu() int16 {
 	display.FillScreen(color.RGBA{0, 0, 0, 255})
 	options := []string{
 		"Badge",
-		"CO2 Monitor",
+		"Snake",
 		"Rainbow LEDs",
 		"Accelerometer",
 		"Music!",

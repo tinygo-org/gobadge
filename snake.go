@@ -92,11 +92,14 @@ func (game *Game) Start() {
 			break
 		case PLAY:
 			display.FillScreen(game.colors[BCK])
-			game.snake.body = [208][2]int16{
-				{0, 3},
-				{0, 2},
-				{0, 1},
-			}
+
+			game.snake.body[0][0] = 0
+			game.snake.body[0][1] = 3
+			game.snake.body[1][0] = 0
+			game.snake.body[1][1] = 2
+			game.snake.body[2][0] = 0
+			game.snake.body[2][1] = 1
+
 			game.snake.length = 3
 			game.snake.direction = 3
 			game.drawSnake()
