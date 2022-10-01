@@ -33,28 +33,22 @@ func main() {
 	c := 0
 	for {
 		buttons.ReadInput()
-		if buttons.Pins[shifter.BUTTON_LEFT].Get() {
+		switch {
+		case buttons.Pins[shifter.BUTTON_LEFT].Get():
 			c = 0
-		}
-		if buttons.Pins[shifter.BUTTON_UP].Get() {
+		case buttons.Pins[shifter.BUTTON_UP].Get():
 			c = 1
-		}
-		if buttons.Pins[shifter.BUTTON_DOWN].Get() {
+		case buttons.Pins[shifter.BUTTON_DOWN].Get():
 			c = 2
-		}
-		if buttons.Pins[shifter.BUTTON_RIGHT].Get() {
+		case buttons.Pins[shifter.BUTTON_RIGHT].Get():
 			c = 3
-		}
-		if buttons.Pins[shifter.BUTTON_SELECT].Get() {
+		case buttons.Pins[shifter.BUTTON_SELECT].Get():
 			c = 6
-		}
-		if buttons.Pins[shifter.BUTTON_START].Get() {
+		case buttons.Pins[shifter.BUTTON_START].Get():
 			c = 7
-		}
-		if buttons.Pins[shifter.BUTTON_A].Get() {
+		case buttons.Pins[shifter.BUTTON_A].Get():
 			c = 4
-		}
-		if buttons.Pins[shifter.BUTTON_B].Get() {
+		case buttons.Pins[shifter.BUTTON_B].Get():
 			c = 5
 		}
 

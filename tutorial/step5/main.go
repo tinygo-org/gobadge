@@ -4,16 +4,16 @@ import (
 	"image/color"
 	"machine"
 
-	"../fonts"
 	"tinygo.org/x/drivers/st7735"
 	"tinygo.org/x/tinyfont"
+	"tinygo.org/x/tinyfont/freesans"
 )
 
 func main() {
 	machine.SPI1.Configure(machine.SPIConfig{
 		SCK:       machine.SPI1_SCK_PIN,
-		MOSI:      machine.SPI1_MOSI_PIN,
-		MISO:      machine.SPI1_MISO_PIN,
+		SDO:       machine.SPI1_SDO_PIN,
+		SDI:       machine.SPI1_SDI_PIN,
 		Frequency: 8000000,
 	})
 	display := st7735.New(machine.SPI1, machine.TFT_RST, machine.TFT_DC, machine.TFT_CS, machine.TFT_LITE)
@@ -23,6 +23,6 @@ func main() {
 
 	display.FillScreen(color.RGBA{0, 0, 0, 255})
 
-	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, 10, 50, []byte("Hello"), color.RGBA{R: 255, G: 255, B: 0, A: 255})
-	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, 40, 80, []byte("Gophers!"), color.RGBA{R: 255, G: 0, B: 255, A: 255})
+	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, 10, 50, "Hello", color.RGBA{R: 255, G: 255, B: 0, A: 255})
+	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, 40, 80, "Gophers!", color.RGBA{R: 255, G: 0, B: 255, A: 255})
 }
