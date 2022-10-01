@@ -6,8 +6,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/tinygo-org/gobadge/fonts"
 	"tinygo.org/x/tinyfont"
+	"tinygo.org/x/tinyfont/freesans"
 )
 
 const (
@@ -52,8 +52,8 @@ func (game *Game) Start() {
 		case START:
 			display.FillScreen(game.colors[BCK])
 
-			tinyfont.WriteLine(&display, &fonts.Bold24pt7b, 0, 50, "SNAKE", game.colors[TEXT])
-			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, 0, 50, "SNAKE", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
 
 			time.Sleep(2 * time.Second)
 			for game.status == START {
@@ -74,8 +74,8 @@ func (game *Game) Start() {
 			scoreStr[8] = 48 + uint8(((game.snake.length-3)/10)%10)
 			scoreStr[9] = 48 + uint8((game.snake.length-3)%10)
 
-			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 50, "GAME OVER", game.colors[TEXT])
-			tinyfont.WriteLine(&display, &fonts.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 50, "GAME OVER", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
 			tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), game.colors[TEXT])
 
 			time.Sleep(2 * time.Second)

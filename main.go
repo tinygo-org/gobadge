@@ -60,8 +60,6 @@ func main() {
 	buttons = shifter.NewButtons()
 	buttons.Configure()
 
-	//menu()
-
 	neo := machine.NEOPIXELS
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	leds = ws2812.New(neo)
