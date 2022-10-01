@@ -4,10 +4,10 @@ import (
 	"image/color"
 	"machine"
 
-	"../fonts"
-
 	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
+	"tinygo.org/x/tinyfont/freesans"
+	"tinygo.org/x/tinyfont/gophers"
 
 	"tinygo.org/x/drivers/st7735"
 )
@@ -21,10 +21,11 @@ const (
 func main() {
 	machine.SPI1.Configure(machine.SPIConfig{
 		SCK:       machine.SPI1_SCK_PIN,
-		MOSI:      machine.SPI1_MOSI_PIN,
-		MISO:      machine.SPI1_MISO_PIN,
+		SDO:       machine.SPI1_SDO_PIN,
+		SDI:       machine.SPI1_SDI_PIN,
 		Frequency: 8000000,
 	})
+
 	display := st7735.New(machine.SPI1, machine.TFT_RST, machine.TFT_DC, machine.TFT_CS, machine.TFT_LITE)
 	display.Configure(st7735.Config{
 		Rotation: st7735.ROTATION_90,
@@ -55,13 +56,13 @@ func main() {
 	display.FillRectangle(0, HEIGHT-2*r-1, WIDTH, r, color.RGBA{255, 0, 0, 255})
 
 	// top text : my NAME is
-	w32, _ := tinyfont.LineWidth(&fonts.Regular12pt7b, []byte("my NAME is"))
-	tinyfont.WriteLine(&display, &fonts.Regular12pt7b, (WIDTH-int16(w32))/2, 24, []byte("my NAME is"), color.RGBA{255, 255, 255, 255})
+	w32, _ := tinyfont.LineWidth(&freesans.Regular12pt7b, "my NAME is")
+	tinyfont.WriteLine(&display, &freesans.Regular12pt7b, (WIDTH-int16(w32))/2, 24, "my NAME is", color.RGBA{255, 255, 255, 255})
 
 	// middle text
-	w32, _ = tinyfont.LineWidth(&fonts.Bold9pt7b, []byte(name))
-	tinyfont.WriteLine(&display, &fonts.Bold9pt7b, (WIDTH-int16(w32))/2, 72, []byte(name), color.RGBA{0, 0, 0, 255})
+	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, name)
+	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 72, name, color.RGBA{0, 0, 0, 255})
 
 	// gophers fonts
-	tinyfont.WriteLine(&display, &fonts.Regular32pt, WIDTH-48, 110, []byte("BE"), color.RGBA{0, 0, 0, 255})
+	tinyfont.WriteLine(&display, &gophers.Regular32pt, WIDTH-48, 110, "BE", color.RGBA{0, 0, 0, 255})
 }

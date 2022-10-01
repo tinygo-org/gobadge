@@ -3,7 +3,7 @@
 ## What you need
 
     - GoBadge aka Adafruit PyBadge
-    - Personal computer with Go 1.18 and TinyGo installed, and a serial port.
+    - Personal computer with Go 1.18/1.19 and TinyGo installed, and a serial port.
 
 ## Installation
 
@@ -11,7 +11,7 @@
 
 If somehow you have not installed Go on your computer already, you can download it here:
 
-https://golang.org/dl/
+https://go.dev/dl/
 
 Now you are ready to install TinyGo.
 
@@ -20,8 +20,6 @@ Now you are ready to install TinyGo.
 Follow the instructions here for your operating system:
 
 https://tinygo.org/getting-started/
-
-Once you have finished installing TinyGo itself, install the drivers needed for the 
 
 ## Connecting the GoBadge to your computer
 
@@ -85,7 +83,13 @@ The 5 neopixels should light up in different colors depending on which button yo
 
 ### step4.go - Light sensor, Neopixels
 
-Step 4 has been temporarily removed from this workshop.
+Run the code.
+
+```
+tinygo flash -target pybadge ./step4/main.go
+```
+
+The 5 neopixels should light up in different colors depending on which button you press.
 
 ### step5.go - Display
 

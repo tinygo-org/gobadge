@@ -35,6 +35,7 @@ var colors = [8]color.RGBA{
 func main() {
 	neo := machine.NEOPIXELS
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
 	leds := ws2812.New(neo)
 	ledColors := make([]color.RGBA, 5)
 
@@ -43,13 +44,14 @@ func main() {
 
 	var k uint8
 	for {
-		buttons.Read8Input()
+		buttons.ReadInput()
 		if buttons.Pins[shifter.BUTTON_LEFT].Get() {
 			k++
 		}
 		if buttons.Pins[shifter.BUTTON_RIGHT].Get() {
 			k--
 		}
+		
 		ledColors[0] = getRainbowRGB(k)
 		ledColors[1] = getRainbowRGB(k + 10)
 		ledColors[2] = getRainbowRGB(k + 20)

@@ -1,10 +1,11 @@
 package main
 
 import (
+	"machine"
+
 	"image/color"
 	"time"
 
-	"github.com/tinygo-org/tinygo/src/machine"
 	"tinygo.org/x/drivers/ws2812"
 )
 
@@ -17,7 +18,7 @@ func main() {
 
 	machine.InitADC()
 	light := machine.ADC{machine.LIGHTSENSOR}
-	light.Configure()
+	light.Configure(machine.ADCConfig{})
 
 	for {
 		value := uint8(light.Get() / 256)

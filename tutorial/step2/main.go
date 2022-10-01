@@ -11,6 +11,7 @@ import (
 func main() {
 	neo := machine.NEOPIXELS
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
 	leds := ws2812.New(neo)
 	ledColors := make([]color.RGBA, 5)
 

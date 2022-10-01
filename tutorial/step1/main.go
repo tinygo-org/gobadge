@@ -15,7 +15,7 @@ func main() {
 	buttons.Configure()
 
 	for {
-		buttons.Read8Input()
+		buttons.ReadInput()
 		if buttons.Pins[shifter.BUTTON_START].Get() {
 			led.High()
 		} else {
