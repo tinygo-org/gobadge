@@ -6,8 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/tinygo-org/gobadge/fonts"
 	"tinygo.org/x/tinyfont"
+	"tinygo.org/x/tinyfont/freesans"
+	"tinygo.org/x/tinyfont/proggy"
 
 	"tinygo.org/x/drivers/scd4x"
 )
@@ -25,29 +26,29 @@ func CO2Monitor() {
 		println(err)
 	}
 
-	w32, _ := tinyfont.LineWidth(&fonts.Bold12pt7b, "TinyGo CO")
+	w32, _ := tinyfont.LineWidth(&freesans.Bold12pt7b, "TinyGo CO")
 	xPPM := ((WIDTH - int16(w32)) / 2) - 3
-	tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xPPM, 30, "TinyGo CO", colors[BLACK])
-	//w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, "TinyGo CO")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32)+1, 33, "2", colors[RED])
+	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, xPPM, 30, "TinyGo CO", colors[BLACK])
+	//w32, _ = tinyfont.LineWidth(&freesans.Bold12pt7b, "TinyGo CO")
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, xPPM+int16(w32)+1, 33, "2", colors[RED])
 	// move it one pixel to make it looks like BOLD font
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM+int16(w32)+2, 33, "2", colors[RED])
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, xPPM+int16(w32)+2, 33, "2", colors[RED])
 
-	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "PPM")
+	w32, _ = tinyfont.LineWidth(&proggy.TinySZ8pt7b, "PPM")
 	xPPM = WIDTH - int16(w32) - 4
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, xPPM, 64, "PPM", colors[BLACK])
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, xPPM, 64, "PPM", colors[BLACK])
 
-	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "TEMP.")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, ((WIDTH/2)-int16(w32))/2, 94, "TEMP", colors[BLACK])
+	w32, _ = tinyfont.LineWidth(&proggy.TinySZ8pt7b, "TEMP.")
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, ((WIDTH/2)-int16(w32))/2, 94, "TEMP", colors[BLACK])
 
-	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "RH")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)+((WIDTH/2)-int16(w32))/2, 94, "RH", colors[BLACK])
+	w32, _ = tinyfont.LineWidth(&proggy.TinySZ8pt7b, "RH")
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, (WIDTH/2)+((WIDTH/2)-int16(w32))/2, 94, "RH", colors[BLACK])
 
-	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "ºC")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, (WIDTH/2)-int16(w32)-4, 112, "ºC", colors[BLACK])
+	w32, _ = tinyfont.LineWidth(&proggy.TinySZ8pt7b, "ºC")
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, (WIDTH/2)-int16(w32)-4, 112, "ºC", colors[BLACK])
 
-	w32, _ = tinyfont.LineWidth(&fonts.TinySZ8pt7b, "%")
-	tinyfont.WriteLine(&display, &fonts.TinySZ8pt7b, WIDTH-int16(w32)-4, 110, "%", colors[BLACK])
+	w32, _ = tinyfont.LineWidth(&proggy.TinySZ8pt7b, "%")
+	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, WIDTH-int16(w32)-4, 110, "%", colors[BLACK])
 
 	oldCO2 := ""
 	oldTemp := ""
@@ -65,29 +66,29 @@ func CO2Monitor() {
 		ShowCO2Level(co2)
 
 		// Clear old readings
-		tinyfont.WriteLine(&display, &fonts.Bold24pt7b, xCO2, 77, oldCO2, colors[WHITE])
-		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xTemp, 120, oldTemp, colors[WHITE])
-		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xHumidity, 120, oldHumidity, colors[WHITE])
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, xCO2, 77, oldCO2, colors[WHITE])
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, xTemp, 120, oldTemp, colors[WHITE])
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, xHumidity, 120, oldHumidity, colors[WHITE])
 
 		// Display new readings
 		oldCO2 = strconv.Itoa(int(co2))
-		w32, _ = tinyfont.LineWidth(&fonts.Bold24pt7b, oldCO2)
+		w32, _ = tinyfont.LineWidth(&freesans.Bold24pt7b, oldCO2)
 		xCO2 = xPPM - int16(w32) - 10
-		tinyfont.WriteLine(&display, &fonts.Bold24pt7b, xCO2, 77, oldCO2, colors[BLACK])
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, xCO2, 77, oldCO2, colors[BLACK])
 
 		value, _ := sensor.ReadTemperature()
 		println("TEMP", value)
 		oldTemp = strconv.FormatFloat(float64(value)/1000, 'f', 1, 64)
-		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldTemp)
+		w32, _ = tinyfont.LineWidth(&freesans.Bold12pt7b, oldTemp)
 		xTemp = ((WIDTH/2)-int16(w32))/2 - 6
-		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xTemp, 120, oldTemp, colors[BLACK])
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, xTemp, 120, oldTemp, colors[BLACK])
 
 		value, _ = sensor.ReadHumidity()
 		println("HUMD", value)
 		oldHumidity = strconv.FormatFloat(float64(value), 'f', 1, 64)
-		w32, _ = tinyfont.LineWidth(&fonts.Bold12pt7b, oldHumidity)
+		w32, _ = tinyfont.LineWidth(&freesans.Bold12pt7b, oldHumidity)
 		xHumidity = (WIDTH / 2) + ((WIDTH/2)-int16(w32))/2 - 6
-		tinyfont.WriteLine(&display, &fonts.Bold12pt7b, xHumidity, 120, oldHumidity, colors[BLACK])
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, xHumidity, 120, oldHumidity, colors[BLACK])
 
 		pressed, _ := buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
