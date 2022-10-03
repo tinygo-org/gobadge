@@ -37,6 +37,7 @@ var pressed uint8
 var quit bool
 
 func Badge() {
+	setNameAndTitle()
 	quit = false
 	display.FillScreen(colors[BLACK])
 
@@ -62,7 +63,7 @@ func Badge() {
 		if quit {
 			break
 		}
-		blinkyRainbow("Hack Session", "29th All Day")
+		blinkyRainbow("Hack Session", "Oct 6 All Day")
 		if quit {
 			break
 		}
@@ -193,4 +194,18 @@ func scroll(topline, middleline, bottomline string) {
 func logo() {
 	display.FillRectangleWithBuffer(0, 0, WIDTH, HEIGHT, logoRGBA)
 	time.Sleep(logoDisplayTime)
+}
+
+func setNameAndTitle() {
+	if YourName == "" {
+		YourName = DefaultName
+	}
+
+	if YourTitle1 == "" {
+		YourTitle1 = DefaultTitle1
+	}
+
+	if YourTitle2 == "" {
+		YourTitle2 = DefaultTitle2
+	}
 }
