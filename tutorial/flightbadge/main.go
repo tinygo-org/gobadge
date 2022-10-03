@@ -1,21 +1,54 @@
 package main
 
 import (
+	"image/color"
+	"strings"
 	"time"
 
+	"machine"
 	"machine/usb/hid/keyboard"
 
-
 	"tinygo.org/x/drivers/shifter"
+	"tinygo.org/x/drivers/st7735"
+
+	"tinygo.org/x/tinyfont/proggy"
+	"tinygo.org/x/tinyterm"
 )
 
 var (
-	shifted bool
-	lastKey string
+	display = st7735.New(machine.SPI1, machine.TFT_RST, machine.TFT_DC, machine.TFT_CS, machine.TFT_LITE)
+
+	terminal = tinyterm.NewTerminal(&display)
+
+	black = color.RGBA{0, 0, 0, 255}
+	white = color.RGBA{255, 255, 255, 255}
+	red   = color.RGBA{255, 0, 0, 255}
+	blue  = color.RGBA{0, 0, 255, 255}
+	green = color.RGBA{0, 255, 0, 255}
+
+	font = &proggy.TinySZ8pt7b
+)
+
+var (
+	shifted  bool
+	lastKey  string
 	lastTime time.Time
 )
 
+var logo = `
+  ___ _ _      _   _      
+ | __| (_)__ _| |_| |_    
+ | _|| | / _\ | ' \  _|   
+ |_|_|_|_\__, |_||_\__|   
+ | _ ) __|___/| |__ _ ___ 
+ | _ \/ _\ / _\ / _\ / -_)
+ |___/\__,_\__,_\__, \___|
+                |___/     
+`
+
 func main() {
+	go handleDisplay()
+
 	buttons := shifter.NewButtons()
 	buttons.Configure()
 
@@ -74,7 +107,7 @@ func handleShiftedKey(key1, key2 string) {
 
 func handleKey(key string) {
 	// simple debounce
-	if key == lastKey && time.Since(lastTime) < 150 * time.Millisecond {
+	if key == lastKey && time.Since(lastTime) < 150*time.Millisecond {
 		return
 	}
 
@@ -82,4 +115,55 @@ func handleKey(key string) {
 	kb.Write([]byte(key))
 
 	lastKey, lastTime = key, time.Now()
+}
+
+func handleDisplay() {
+	machine.SPI1.Configure(machine.SPIConfig{
+		SCK:       machine.SPI1_SCK_PIN,
+		SDO:       machine.SPI1_SDO_PIN,
+		SDI:       machine.SPI1_SDI_PIN,
+		Frequency: 8000000,
+	})
+
+	display.Configure(st7735.Config{
+		Rotation: st7735.ROTATION_90,
+	})
+
+	terminal.Configure(&tinyterm.Config{
+		Font:              font,
+		FontHeight:        10,
+		FontOffset:        6,
+		UseSoftwareScroll: true,
+	})
+
+	display.FillScreen(black)
+
+	showSplash()
+
+	input := make([]byte, 64)
+	i := 0
+
+	for {
+		if machine.Serial.Buffered() > 0 {
+			data, _ := machine.Serial.ReadByte()
+
+			switch data {
+			case 13:
+				// return key
+				terminal.Write([]byte("\r\n"))
+				terminal.Write(input[:i])
+				i = 0
+			default:
+				input[i] = data
+				i++
+			}
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+}
+
+func showSplash() {
+	for _, line := range strings.Split(strings.TrimSuffix(logo, "\n"), "\n") {
+		terminal.Write([]byte(line))
+	}
 }
