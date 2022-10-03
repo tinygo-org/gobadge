@@ -1,18 +1,24 @@
 flash: flash-tinygo
 
-flash-gceu:
+prepare-gceu:
 	go run cmd/main.go -conf=gceu22
-	tinygo flash -size short -target pybadge .
 
-flash-gcuk:
+flash-gceu: prepare-gceu perform-flash
+
+prepare-gcuk:
 	go run cmd/main.go -conf=gcuk22
-	tinygo flash -size short -target pybadge .
 
-flash-gcus:
+flash-gcuk: prepare-gcuk perform-flash
+
+prepare-gcus:
 	go run cmd/main.go -conf=gcus22
-	tinygo flash -size short -target pybadge .
 
-flash-tinygo:
+flash-gcus: prepare-gcus perform-flash
+
+prepare-tinygo:
 	go run cmd/main.go -conf=tinygo
-	tinygo flash -size short -target pybadge .
 
+flash-tinygo: prepare-tinygo perform-flash
+
+perform-flash:
+	tinygo flash -size short -target pybadge -ldflags="-X main.YourName='$(NAME)' -X main.YourTitle1='$(TITLE1)' -X main.YourTitle2='$(TITLE2)'" .

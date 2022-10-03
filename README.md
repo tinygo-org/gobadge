@@ -12,8 +12,6 @@ https://www.adafruit.com/product/4200
 
 - Change directories into the directory with the repo
 
-- Customize the file `data.go` with your own name and information
-
 - Connect your Pybadge to your computer using a USB cable
 
 - Run this command to compile and flash the code to your Pybadge:
@@ -35,11 +33,18 @@ make flash-gcuk
 make flash-gcus
 ```
 
+- To customize the Gobadge with your own name and information, use the `NAME`, `TITLE1`, and `TITLE2` variables like this:
+
+```
+make flash-gcus NAME="@TinyGolang" TITLE1="Go compiler" TITLE2="small places"
+```
+
 # Add an new logo
 
 - Create an image with a 160x128 pixels size, copy it into `cmd/assets` folder.  
 For the moment only jpeg images are supported.  
 - In `cmd/main.go` add the path to your file here
+
 ```go
 const (
 gopherconEU22Logo = "./cmd/assets/gopherconeu-2022.jpg"
@@ -48,7 +53,9 @@ gopherconUS22Logo = "./cmd/assets/gopherconus-2022.jpg"
 yourPathLogoHere = "./your/path/to/the/logo"
 )
 ```
+
 - Add the corresponding flag to the conf map:
+
 ```go
 func confs() map[string]string {
 	return map[string]string{
@@ -61,6 +68,7 @@ func confs() map[string]string {
 ```
 
 Add a new target to the Makefile:
+
 ```bash
 flash-yourconf:
 	go run cmd/main.go -conf=flagLogo
@@ -68,12 +76,14 @@ flash-yourconf:
 ```
 
 You can run:
+
 ```bash
 make flash-yourconf
 ```
 
 It will use `cmd/logos/logo-template.txt` to generate the image into a `[]color.RGBA`.
 Then it is stored in variable in `logo.go` file.
+
 ```go
 package main
 
