@@ -9,6 +9,7 @@ import (
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
 
+	"tinygo.org/x/drivers/shifter"
 	"tinygo.org/x/drivers/st7735"
 )
 
@@ -18,6 +19,7 @@ const (
 )
 
 var display st7735.Device
+var buttons shifter.Device
 
 type Snake struct {
 	body      [208][2]int16
@@ -58,7 +60,7 @@ func main() {
 	})
 
 	// Setup the buttons
-	buttons := shifter.NewButtons()
+	buttons = shifter.NewButtons()
 	buttons.Configure()
 
 	// fill the whole screen with black
@@ -169,10 +171,6 @@ func drawSnakePartial(x, y int16, c color.RGBA) {
 func createApple() {
 	appleX = int16(rand.Int31n(WIDTHBLOCKS))
 	appleY = int16(rand.Int31n(HEIGHTBLOCKS))
-	for collisionWithSnake(appleX, appleY) {
-		appleX = int16(rand.Int31n(WIDTHBLOCKS))
-		appleY = int16(rand.Int31n(HEIGHTBLOCKS))
-	}
 	drawSnakePartial(appleX, appleY, red)
 }
 
@@ -198,11 +196,13 @@ func gameOver() {
 	tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), white)
 
 	time.Sleep(2 * time.Second)
+
 	for {
 		buttons.ReadInput()
-		if buttons.Pins[shifter.BUTTON_START].Get() > 0 || buttons.Pins[shifter.BUTTON_SELECT].Get() > 0 {
+		if buttons.Pins[shifter.BUTTON_START].Get() || buttons.Pins[shifter.BUTTON_SELECT].Get() {
 			break
 		}
+		time.Sleep(100 * time.Millisecond)
 	}
 
 	// reset our game status
