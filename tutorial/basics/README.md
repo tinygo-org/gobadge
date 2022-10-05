@@ -1,29 +1,8 @@
-# GoBadge Tutorial
-
-## What you need
-
-    - GoBadge aka Adafruit PyBadge
-    - Personal computer with Go 1.18/1.19 and TinyGo installed, and a serial port.
-
-## Installation
-
-### Go
-
-If somehow you have not installed Go on your computer already, you can download it here:
-
-https://go.dev/dl/
-
-Now you are ready to install TinyGo.
-
-### TinyGo
-
-Follow the instructions here for your operating system:
-
-https://tinygo.org/getting-started/
+# GoBadge Basic Tutorial
 
 ## Connecting the GoBadge to your computer
 
-![Adafruit GoBadge](./images/pybadge_hello.jpg)
+![Adafruit GoBadge](../images/gobadge.jpg)
 
 Plug the GoBadge into your computer using a USB cable. There may be one provided in your starter kit.
 
@@ -41,122 +20,109 @@ Let's get started!
 
 ### step0.go - Built-in LED
 
+![Step 0](../images/basics/step0.jpg)
+
 This tests that you can compile and flash your PyBadge with TinyGo code, by blinking the built-in LED (it's on the back).
 
-![Adafruit PyBadge bootloader](./images/pybadge_bootloader.jpg)
-
 ```
-tinygo flash -target pybadge ./step0/main.go
+tinygo flash -target pybadge ./step0/
 ```
 
 Once the PyBadge is flashed correctly, the built-in LED labeled "D13" (on the back) should start to turn on and off once per second. Now everything is setup correctly and you are ready to continue.
 
 ### step1.go - Built-in LED, START Button
 
+![Step 1](../images/basics/step1.jpg)
+
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step1/main.go
+tinygo flash -target pybadge ./step1/
 ```
 
 When you press the START button, the built-in LED should turn on.
 
 ### step2.go - Neopixels
 
+![Step 2](../images/basics/step2.jpg)
+
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step2/main.go
+tinygo flash -target pybadge ./step2/
 ```
 
 The 5 neopixels should light up green and red alternatively.
 
 ### step3.go - Neopixels, Buttons
 
+![Step 3](../images/basics/step3.jpg)
+
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step3/main.go
+tinygo flash -target pybadge ./step3/
 ```
 
 The 5 neopixels should light up in different colors depending on which button you press.
 
 ### step4.go - Light sensor, Neopixels
 
+![Step 4](../images/basics/step4.jpg)
+
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step4/main.go
+tinygo flash -target pybadge ./step4/
 ```
 
 The 5 neopixels should light up in different colors depending on which button you press.
 
 ### step5.go - Display
 
-![PyBadge](./images/pybadge_hello.jpg)
+![Step 5](../images/basics/step5.jpg)
 
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step5/main.go
+tinygo flash -target pybadge ./step5/
 ```
 
 The message "Hello Gophers!" should appear on the display.
 
 ### step6.go - Display, Buttons
 
-![PyBadge](./images/pybadge_display_buttons.jpg)
+![Step 6](../images/basics/step6.jpg)
 
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step6/main.go
+tinygo flash -target pybadge ./step6/
 ```
 
 The display will show some blue circles. When a button is pressed a ring will be shown around its corresponding circle.
 
 ### step7.go - Display, Accelerometer
 
-![PyBadge](./images/pybadge_accel.jpg)
+![Step 7](../images/basics/step7.jpg)
 
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step7/main.go
+tinygo flash -target pybadge ./step7/
 ```
 
 The display will show a bar for each X,Y,Z axis. Move the Pybadge to see it in action.
 
 ### step8.go - Buzzer, Buttons
 
+![Step 8](../images/basics/step8.jpg)
+
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step8/main.go
+tinygo flash -target pybadge ./step8/
 ```
 
 Press the buttons and create your melody.
 
-### Snake Game
-
-![PyBadge](./images/pybadge_snake.jpg)
-
-Run the code.
-
-```
-tinygo flash -target pybadge ./snake
-```
-
-Play the famous Snake game on the pybadge.
-
-### My Name Is
-
-![PyBadge](./images/pybadge_mynameis.jpg)
-
-Run the code.
-
-```
-tinygo flash -target pybadge ./mynameis
-```
-
-Configure your name and use the awesome TinyGo-powered badge!
