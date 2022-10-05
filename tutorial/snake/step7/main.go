@@ -171,6 +171,10 @@ func drawSnakePartial(x, y int16, c color.RGBA) {
 func createApple() {
 	appleX = int16(rand.Int31n(WIDTHBLOCKS))
 	appleY = int16(rand.Int31n(HEIGHTBLOCKS))
+	for collisionWithSnake(appleX, appleY) {
+		appleX = int16(rand.Int31n(WIDTHBLOCKS))
+		appleY = int16(rand.Int31n(HEIGHTBLOCKS))
+	}
 	drawSnakePartial(appleX, appleY, red)
 }
 
