@@ -5,6 +5,7 @@ import (
 	"machine"
 	"time"
 
+	"tinygo.org/x/drivers/shifter"
 	"tinygo.org/x/drivers/st7735"
 )
 

@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"time"
 
+	"tinygo.org/x/drivers/shifter"
 	"tinygo.org/x/drivers/st7735"
 )
 
@@ -31,6 +32,7 @@ var snake = Snake{
 	length:    3,
 	direction: 3,
 }
+
 var appleX = int16(-1)
 var appleY = int16(-1)
 

@@ -3,8 +3,10 @@ package main
 import (
 	"image/color"
 	"machine"
+	"math/rand"
 	"time"
 
+	"tinygo.org/x/drivers/shifter"
 	"tinygo.org/x/drivers/st7735"
 )
 
@@ -28,6 +30,11 @@ var snake = Snake{
 	},
 	direction: 3,
 }
+
+var appleX = int16(-1)
+var appleY = int16(-1)
+
+var red = color.RGBA{255, 0, 0, 255}
 var green = color.RGBA{0, 255, 0, 255}
 var black = color.RGBA{0, 0, 0, 255}
 
@@ -144,4 +151,10 @@ func drawSnakePartial(x, y int16, c color.RGBA) {
 	// we changed the size of 10 to 9, so a black border is shown
 	// around each segment of the snake
 	display.FillRectangle(10*x, 10*y, 9, modY, c)
+}
+
+func createApple() {
+	appleX = int16(rand.Int31n(WIDTHBLOCKS))
+	appleY = int16(rand.Int31n(HEIGHTBLOCKS))
+	drawSnakePartial(appleX, appleY, red)
 }
