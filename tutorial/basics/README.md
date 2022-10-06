@@ -65,10 +65,16 @@ Once the PyBadge is flashed correctly, the built-in LED labeled "D13" (on the ba
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step1/main.go
+tinygo flash -target pybadge ./step1
 ```
 
 When you press the START button, the built-in LED should turn on.
+
+![start button](./assets/step1.jpg)
+
+*Challenge:* 
+See if you can modify [./step1/main.go](step1/main.go) so that the LED turns on if
+the _SELECT_ button is pressed instead of the _START_ button.
 
 ### step2.go - Neopixels
 
