@@ -9,54 +9,72 @@ import (
 	"tinygo.org/x/drivers/ws2812"
 )
 
-var colors = [8]color.RGBA{
-	color.RGBA{255, 0, 0, 255},
-	color.RGBA{255, 255, 0, 255},
-	color.RGBA{0, 255, 0, 255},
-	color.RGBA{0, 255, 255, 255},
-	color.RGBA{0, 0, 255, 255},
-	color.RGBA{255, 0, 255, 255},
-	color.RGBA{255, 255, 255, 255},
-	color.RGBA{0, 0, 0, 255},
+const (
+	Red = iota
+	MellonGreen
+	Green
+	Cyan
+	Blue
+	Purple
+	White
+	Off
+)
+
+var colors = [...]color.RGBA{
+	color.RGBA{255, 0, 0, 255},     // RED
+	color.RGBA{255, 255, 0, 255},   // MELLON_GREEN
+	color.RGBA{0, 255, 0, 255},     // GREEN
+	color.RGBA{0, 255, 255, 255},   // CYAN
+	color.RGBA{0, 0, 255, 255},     // BLUE
+	color.RGBA{255, 0, 255, 255},   // PURPLE
+	color.RGBA{255, 255, 255, 255}, // WHITE
+	color.RGBA{0, 0, 0, 255},       // OFF
 }
 
 func main() {
+
+	// get and configure neopixels
 	neo := machine.NEOPIXELS
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 
 	leds := ws2812.New(neo)
+	// a color for each led on the board
 	ledColors := make([]color.RGBA, 5)
 
+	// get and configure buttons on the board
 	buttons := shifter.NewButtons()
 	buttons.Configure()
 
 	c := 0
 	for {
+		// read buttons states
 		buttons.ReadInput()
 		switch {
 		case buttons.Pins[shifter.BUTTON_LEFT].Get():
-			c = 0
+			c = Red
 		case buttons.Pins[shifter.BUTTON_UP].Get():
-			c = 1
+			c = MellonGreen
 		case buttons.Pins[shifter.BUTTON_DOWN].Get():
-			c = 2
+			c = Green
 		case buttons.Pins[shifter.BUTTON_RIGHT].Get():
-			c = 3
+			c = Cyan
 		case buttons.Pins[shifter.BUTTON_SELECT].Get():
-			c = 6
+			c = White
 		case buttons.Pins[shifter.BUTTON_START].Get():
-			c = 7
+			c = Off
 		case buttons.Pins[shifter.BUTTON_A].Get():
-			c = 4
+			c = Blue
 		case buttons.Pins[shifter.BUTTON_B].Get():
-			c = 5
+			c = Purple
 		}
 
-		for i := 0; i < 5; i++ {
+		// set color for LEDs
+		for i := range ledColors {
 			ledColors[i] = colors[c]
 		}
 
 		leds.WriteColors(ledColors)
-		time.Sleep(time.Millisecond * 30)
+
+		time.Sleep(30 * time.Millisecond)
 	}
 }
