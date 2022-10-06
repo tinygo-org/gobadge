@@ -11,6 +11,8 @@ import (
 )
 
 func main() {
+
+	// Setup the SPI display pins
 	machine.SPI1.Configure(machine.SPIConfig{
 		SCK:       machine.SPI1_SCK_PIN,
 		SDO:       machine.SPI1_SDO_PIN,
@@ -18,6 +20,7 @@ func main() {
 		Frequency: 8000000,
 	})
 
+	// Setup the display drivers
 	display := st7735.New(machine.SPI1, machine.TFT_RST, machine.TFT_DC, machine.TFT_CS, machine.TFT_LITE)
 	display.Configure(st7735.Config{
 		Rotation: st7735.ROTATION_90,
@@ -31,7 +34,11 @@ func main() {
 	circle := color.RGBA{0, 100, 250, 255}
 	white := color.RGBA{255, 255, 255, 255}
 	ring := color.RGBA{200, 0, 0, 255}
+
+	// Clear the display to white
 	display.FillScreen(white)
+
+	// Draw blue circles to represent each of the buttons
 	tinydraw.FilledCircle(&display, 25, 74, 8, circle) // LEFT
 	tinydraw.FilledCircle(&display, 55, 74, 8, circle) // RIGHT
 	tinydraw.FilledCircle(&display, 40, 59, 8, circle) // UP
