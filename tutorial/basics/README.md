@@ -81,17 +81,24 @@ the _SELECT_ button is pressed instead of the _START_ button.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step2/main.go
+tinygo flash -target pybadge ./step2
 ```
 
+![step 2 location](./assets/step2.jpg)
+
+
 The 5 neopixels should light up green and red alternatively.
+
+![step 2](./assets/step2.gif)
+
+
 
 ### step3.go - Neopixels, Buttons
 
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step3/main.go
+tinygo flash -target pybadge ./step3
 ```
 
 The 5 neopixels should light up in different colors depending on which button you press.
