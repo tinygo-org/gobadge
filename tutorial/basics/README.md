@@ -107,6 +107,10 @@ What happens if you press more than one button at a time?
 
 try out `./step3b`, what does it do?
 
+After deploying it should look like this:
+
+![step3b](./assets/step3b.gif)
+
 ### step4.go - Light sensor, Neopixels
 
 Run the code.
@@ -117,8 +121,6 @@ tinygo flash -target pybadge ./step4
 
 
 ### step5.go - Display
-
-![PyBadge](./images/pybadge_hello.jpg)
 
 Run the code.
 
