@@ -103,22 +103,25 @@ tinygo flash -target pybadge ./step3
 
 The 5 neopixels should light up in different colors depending on which button you press.
 
+What happens if you press more than one button at a time?
+
+try out `./step3b`, what does it do?
 
 ### step4.go - Light sensor, Neopixels
 
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step4/main.go
+tinygo flash -target pybadge ./step4
 ```
 
-The 5 neopixels should light up in different colors depending on which button you press.
 
 ### step5.go - Display
 
 ![PyBadge](./images/pybadge_hello.jpg)
 
 Run the code.
+
 
 ```
 tinygo flash -target pybadge ./step5/main.go

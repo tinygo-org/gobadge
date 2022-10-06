@@ -10,35 +10,17 @@ import (
 	"tinygo.org/x/drivers/ws2812"
 )
 
-const (
-	BUTTON_LEFT = iota
-	BUTTON_UP
-	BUTTON_DOWN
-	BUTTON_RIGHT
-	BUTTON_SELECT
-	BUTTON_START
-	BUTTON_A
-	BUTTON_B
-)
-
-var colors = [8]color.RGBA{
-	color.RGBA{255, 0, 0, 255},
-	color.RGBA{255, 255, 0, 255},
-	color.RGBA{0, 255, 0, 255},
-	color.RGBA{0, 255, 255, 255},
-	color.RGBA{0, 0, 255, 255},
-	color.RGBA{255, 0, 255, 255},
-	color.RGBA{255, 255, 255, 255},
-	color.RGBA{0, 0, 0, 255},
-}
-
 func main() {
+
+	// get and configure neopixels
 	neo := machine.NEOPIXELS
 	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 
 	leds := ws2812.New(neo)
+	// a color for each led on the board
 	ledColors := make([]color.RGBA, 5)
 
+	// get and configure buttons on the board
 	buttons := shifter.NewButtons()
 	buttons.Configure()
 
@@ -51,7 +33,7 @@ func main() {
 		if buttons.Pins[shifter.BUTTON_RIGHT].Get() {
 			k--
 		}
-		
+
 		ledColors[0] = getRainbowRGB(k)
 		ledColors[1] = getRainbowRGB(k + 10)
 		ledColors[2] = getRainbowRGB(k + 20)
