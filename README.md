@@ -14,6 +14,10 @@ https://www.adafruit.com/product/4200
 
 - Connect your Pybadge to your computer using a USB cable
 
+- Make sure to turn on the badge, flip the switch at the top of the board next to `select` to the `on` position. The screen should light up with a sign way display.
+![location of on off switch](assets/on_off.jpg "on off switch location")
+
+
 - Run this command to compile and flash the code to your Pybadge:
 
 ```
@@ -25,6 +29,8 @@ or
 ```
 tinygo flash -target pybadge .
 ```
+
+Note: if you get a `permision denied` error; please, consult this [page](https://tinygo.org/docs/guides/tinygo-flash-errors/) for possible solution. You many need to restart the computer; afterward to get the group to stick.
 
 - To display a conference logo on your badge, use of the following target:
 ```
