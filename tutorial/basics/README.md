@@ -142,17 +142,22 @@ Run the code.
 tinygo flash -target pybadge ./step6/main.go
 ```
 
-The display will show some blue circles. When a button is pressed a ring will be shown around its corresponding circle.
+![step6](./assets/step6.jpg)
+
+
+The display will show some blue circle that represent that buttons on the board.
+When a button is pressed a ring will be shown around its corresponding circle.
 
 ### step7.go - Display, Accelerometer
 
-![PyBadge](./images/pybadge_accel.jpg)
 
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step7/main.go
+tinygo flash -target pybadge ./step7
 ```
+
+![step7](./assets/step7.jpg)
 
 The display will show a bar for each X,Y,Z axis. Move the Pybadge to see it in action.
 
@@ -166,26 +171,21 @@ tinygo flash -target pybadge ./step8/main.go
 
 Press the buttons and create your melody.
 
+
+Good job in completing the basic tutorials. Now can check out the more complicated 
+tutorials
+
 ### Snake Game
 
-![PyBadge](./images/pybadge_snake.jpg)
-
-Run the code.
-
-```
-tinygo flash -target pybadge ./snake
-```
-
-Play the famous Snake game on the pybadge.
+[Play the famous Snake game on the pybadge.](../snake/README.md)
 
 ### My Name Is
 
-![PyBadge](./images/pybadge_mynameis.jpg)
-
-Run the code.
-
-```
-tinygo flash -target pybadge ./mynameis
-```
+This example display you name. Use this to make a simple name badge
+[My Name is](../mynameis/README.md)
 
 Configure your name and use the awesome TinyGo-powered badge!
+
+Note:
+
+Find the different type of fonts you can use [here](https://github.com/tinygo-org/tinyfont)
