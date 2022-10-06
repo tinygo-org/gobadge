@@ -32,7 +32,7 @@ tinygo flash -target pybadge .
 
 Note: if you get a `permision denied` error; please, consult this [page](https://tinygo.org/docs/guides/tinygo-flash-errors/) for possible solution. You many need to restart the computer; afterward to get the group to stick.
 
-- To display a conference logo on your badge, use of the following target:
+- To display a conference logo on your badge, use one of the following targets (depending on GC for Europe, UK, or US):
 ```
 make flash-gceu
 make flash-gcuk
