@@ -124,16 +124,17 @@ tinygo flash -target pybadge ./step4
 
 Run the code.
 
-
 ```
 tinygo flash -target pybadge ./step5/main.go
 ```
 
 The message "Hello Gophers!" should appear on the display.
 
-### step6.go - Display, Buttons
+![step5](./assets/step5.jpg)
 
-![PyBadge](./images/pybadge_display_buttons.jpg)
+
+
+### step6.go - Display, Buttons
 
 Run the code.
 
