@@ -20,11 +20,13 @@ https://www.adafruit.com/product/4200
 
 - Run this command to compile and flash the code to your Pybadge:
 
+If you are running Mac or Linux, or have make installed you can run the following:
+
 ```
 make flash
 ```
 
-or 
+otherwise run tinygo directly
 
 ```
 tinygo flash -target pybadge .
