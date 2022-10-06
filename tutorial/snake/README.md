@@ -105,7 +105,7 @@ In the previous step, the 10x10 _snake_ was moving by 1 pixel each time, we need
 
 ![Block by block](./assets/step4.gif)
 
-### step5.go - Long snake is lon
+### step5.go - Long snake is long
 
 Run the code.
 
