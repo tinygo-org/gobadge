@@ -23,17 +23,21 @@ https://tinygo.org/getting-started/
 
 ## Connecting the GoBadge to your computer
 
-![Adafruit GoBadge](./images/pybadge_hello.jpg)
+![welcome to gopher badge](../../assets/welcome.jpg)
 
 Plug the GoBadge into your computer using a USB cable. There may be one provided in your starter kit.
 
+Make sure that the GoBadge is on.
+
+![on off switch](../../assets/on_off.jpg)
+
 ## Running the code
 
-The TinyGo programs will run directly on the GoBadge's microcontoller. The procedure is basically:
+The TinyGo programs will run directly on the GoBadge's microcontroller. The procedure is basically:
 
 - Edit your TinyGo program.
 - Compile and flash it to your GoBadge.
-- The program executes from the GoBadge. You can disconnect the GoBadge from your computer and plug it into a battery if you wish, the program executes directly on the microcontroller.
+- The program executes from the GoBadge. You can disconnect the GoBadge from your computer (plug it into a battery, if it isn't already), the program executes directly on the microcontroller.
 
 Let's get started!
 
@@ -43,13 +47,18 @@ Let's get started!
 
 This tests that you can compile and flash your PyBadge with TinyGo code, by blinking the built-in LED (it's on the back).
 
-![Adafruit PyBadge bootloader](./images/pybadge_bootloader.jpg)
+
 
 ```
-tinygo flash -target pybadge ./step0/main.go
+tinygo flash -target pybadge ./step0
 ```
+
+![flashing the board](../../assets/getting_flashed.jpg)
 
 Once the PyBadge is flashed correctly, the built-in LED labeled "D13" (on the back) should start to turn on and off once per second. Now everything is setup correctly and you are ready to continue.
+
+![step 0](./assets/step0.jpg)
+
 
 ### step1.go - Built-in LED, START Button
 
@@ -80,6 +89,7 @@ tinygo flash -target pybadge ./step3/main.go
 ```
 
 The 5 neopixels should light up in different colors depending on which button you press.
+
 
 ### step4.go - Light sensor, Neopixels
 
