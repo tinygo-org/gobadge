@@ -26,7 +26,7 @@ https://tinygo.org/getting-started/
 
 ## Connecting the GoBadge to your computer
 
-![Adafruit GoBadge](./images/pybadge_hello.jpg)
+![Adafruit GoBadge](./assets/pybadge_hello.jpg)
 
 Plug the GoBadge into your computer using a USB cable. There may be one provided in your starter kit.
 
@@ -46,13 +46,15 @@ Let's get started!
 
 This step is to get familiar with the display and the drawing functions.
 
-![Adafruit PyBadge bootloader](./images/pybadge_bootloader.jpg)
+![Adafruit PyBadge bootloader](./assets/pybadge_bootloader.jpg)
 
 ```
 tinygo flash -target pybadge ./step0/main.go
 ```
 
 Once the PyBadge is flashed correctly, a green pixel will appear on the middle of the screen. Feel free to change the values of displaySetPixel and see where the pixel appears!
+
+![A pixel on the screen](./assets/step0.jpg)
 
 ### step1.go - A pixel, but bigger!
 
@@ -61,6 +63,8 @@ Run the code.
 ```
 tinygo flash -target pybadge ./step1/main.go
 ```
+
+![A bigger pixel](./assets/step1.jpg)
 
 Instead of a pixel, we are drawing a 10x10 green rectangle.
 
@@ -74,6 +78,8 @@ tinygo flash -target pybadge ./step2/main.go
 
 We listen to the input buttons and move our rectangle across the display.
 
+![A pixel moving around](./assets/step2.gif)
+
 ### step3.go - Run, snake, run
 
 Run the code.
@@ -85,6 +91,8 @@ tinygo flash -target pybadge ./step3/main.go
 Have you noticed the snake at the previous step was kind of slow? That was because display.FillScreen draws the whole display and is a slow process, we could improve the speed if only re-draw the pixels that has 
 changed. 
 
+![Several pixels = a snake](./assets/step3.gif)
+
 ### step4.go - Welcome to the grid
 
 Run the code.
@@ -95,9 +103,9 @@ tinygo flash -target pybadge ./step4/main.go
 
 In the previous step, the 10x10 _snake_ was moving by 1 pixel each time, we need to divide our display (160x128) in a 10x10 grid so the snake will move a whole block each time.
 
-### step5.go - Long snake is lon
+![Block by block](./assets/step4.gif)
 
-![PyBadge](./images/pybadge_hello.jpg)
+### step5.go - Long snake is lon
 
 Run the code.
 
@@ -107,9 +115,9 @@ tinygo flash -target pybadge ./step5/main.go
 
 Our little snake grew from 1 block to 3 block length.
 
-### step6.go - Time to grow up
+![1, 2, 3!](./assets/step5.jpg)
 
-![PyBadge](./images/pybadge_display_buttons.jpg)
+### step6.go - Time to grow up
 
 Feed our snake some red apples so it can grow
 
@@ -117,11 +125,11 @@ Feed our snake some red apples so it can grow
 tinygo flash -target pybadge ./step6/main.go
 ```
 
+![I wanna grow up!](./assets/step6.jpg)
+
 The display will show some blue circles. When a button is pressed a ring will be shown around its corresponding circle.
 
 ### step7.go - Score & game mechanics
-
-![PyBadge](./images/pybadge_accel.jpg)
 
 Run the code.
 
@@ -129,8 +137,12 @@ Run the code.
 tinygo flash -target pybadge ./step7/main.go
 ```
 
+![Let's play](./assets/step7_01.gif)
+
 Add game mechanics such as collision (game over) and score.
+
+![Game over, try again!](./assets/step7_02.jpg)
 
 ### step8.go - Get wild!
 
-Tehre's no step 8, it's time to get creative and modify the game as you wish, try adding sounds or different colors
+There's no step 8, it's time to get creative and modify the game as you wish, try adding sounds or different colors
