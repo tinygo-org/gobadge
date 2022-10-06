@@ -52,7 +52,7 @@ func main() {
 		} else {
 			modY = 10
 		}
-		display.FillRectangle(x*10, y*10, 10, modY, green)
+		display.FillRectangle(x*10, y*10, 10, modY, black)
 
 		buttons.ReadInput()
 		switch {

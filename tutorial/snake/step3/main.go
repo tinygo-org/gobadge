@@ -42,7 +42,7 @@ func main() {
 	for {
 
 		// "clear" our previous snake position
-		display.FillRectangle(x, y, 10, 10, green)
+		display.FillRectangle(x, y, 10, 10, black)
 
 		buttons.ReadInput()
 		switch {
