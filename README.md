@@ -14,7 +14,7 @@ https://www.adafruit.com/product/4200
 
 - Connect your Pybadge to your computer using a USB cable
 
-- Make sure to turn on the badge, flip the switch at the top of the board next to `select` to the `on` position. The screen should light up with a sine wave display.
+- Make sure to turn on the badge, flip the switch at the top of the board next to `select` to the `on` position. The screen should light up and might be showing a sine wave display (if it was not already flashed to something else).
 ![location of on off switch](assets/on_off.jpg "on off switch location")
 
 
