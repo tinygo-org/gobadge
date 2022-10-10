@@ -52,7 +52,7 @@ This step is to get familiar with the display and the drawing functions.
 tinygo flash -target pybadge ./step0/main.go
 ```
 
-Once the PyBadge is flashed correctly, a green pixel will appear on the middle of the screen. Feel free to change the values of displaySetPixel and see where the pixel appears!
+Once the PyBadge is flashed correctly, a green pixel will appear on the middle of the screen. Feel free to change the values of `display.SetPixel` (towards the bottom of the ./step0/main.go file) and see where the pixel appears!
 
 ![A pixel on the screen](./assets/step0.jpg)
 
