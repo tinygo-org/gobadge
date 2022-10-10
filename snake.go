@@ -161,7 +161,7 @@ func (g *Game) createApple() {
 		g.appleX = int16(rand.Int31n(16))
 		g.appleY = int16(rand.Int31n(13))
 	}
-	g.drawSnakePartial(g.appleX, g.appleY, g.colors[APPLE])
+	g.drawApple(g.appleX, g.appleY)
 }
 
 func (g *Game) moveSnake() {
@@ -214,6 +214,27 @@ func (g *Game) moveSnake() {
 	}
 	g.snake.body[0][0] = x
 	g.snake.body[0][1] = y
+}
+
+func (game *Game) drawApple(x, y int16) {
+	// Those variable are there for a more easy reading of the apple shape
+	r := game.colors[APPLE]
+	b := game.colors[BCK]
+	g := game.colors[SNAKE]
+	// The array is split for a visual purpose too
+	applebuffer := []color.RGBA{
+		b, b, b, b, b, g, g, g, b, b,
+		b, b, b, b, g, g, g, b, b, b,
+		b, b, b, r, g, g, r, b, b, b,
+		b, b, r, r, r, r, r, r, b, b,
+		b, r, r, r, r, r, r, r, r, b,
+		b, r, r, r, r, r, r, r, r, b,
+		b, r, r, r, r, r, r, r, r, b,
+		b, b, r, r, r, r, r, r, b, b,
+		b, b, b, r, r, r, r, b, b, b,
+		b, b, b, b, b, b, b, b, b, b,
+	}
+	display.FillRectangleWithBuffer(10*x, 10*y, 10, 10, applebuffer)
 }
 
 func (g *Game) drawSnake() {
