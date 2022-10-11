@@ -11,7 +11,7 @@ var (
 )
 
 const (
-	DefaultName   = "@TinyGolang"
-	DefaultTitle1 = "Go Compiler"
-	DefaultTitle2 = "Small Places"
+	DefaultName   = "Sean Lewis"
+	DefaultTitle1 = "Custodia"
+	DefaultTitle2 = "Bank"
 )

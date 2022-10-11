@@ -3,7 +3,8 @@ package main
 import (
 	"image/color"
 	"machine"
-	"time"
+
+	//"time"
 
 	"tinygo.org/x/drivers/lis3dh"
 
@@ -72,6 +73,7 @@ func main() {
 	speaker.High()
 
 	for {
+		Badge()
 		switch menu() {
 		case 0:
 			Badge()
@@ -91,8 +93,7 @@ func main() {
 		default:
 			break
 		}
-		println("LOOP")
-		time.Sleep(1 * time.Second)
+		//time.Sleep(10 * time.Millisecond)
 	}
 }
 

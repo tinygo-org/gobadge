@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	"machine"
+	"math/rand"
 	"time"
 
 	"tinygo.org/x/tinydraw"
@@ -47,31 +49,31 @@ func Badge() {
 	}
 
 	for {
-		logo()
-		if quit {
-			break
-		}
-		scroll("This badge", "runs", "TINYGO")
-		if quit {
-			break
-		}
+		//logo()
+		//if quit {
+		//break
+		//}
+		//scroll("This badge", "runs", "TINYGO")
+		//if quit {
+		//break
+		//}
 		myNameIsRainbow(YourName)
 		if quit {
 			break
 		}
-		blinkyRainbow(YourTitle1, YourTitle2)
-		if quit {
-			break
-		}
-		blinkyRainbow("Hack Session", "Oct 6 All Day")
-		if quit {
-			break
-		}
+		//blinkyRainbow(YourTitle1, YourTitle2)
+		//if quit {
+		//break
+		//}
+		//blinkyRainbow("Hack Session", "Oct 6 All Day")
+		//if quit {
+		//break
+		//}
 	}
 }
 
 func myNameIs(name string) {
-	display.FillScreen(colors[WHITE])
+	display.FillScreen(colors[BLACK])
 
 	var r int16 = 8
 
@@ -87,7 +89,7 @@ func myNameIs(name string) {
 	tinydraw.FilledCircle(&display, r, HEIGHT-r-1, r, colors[RED])
 	tinydraw.FilledCircle(&display, WIDTH-r-1, HEIGHT-r-1, r, colors[RED])
 
-	// top band
+	// top band red
 	display.FillRectangle(r, 0, WIDTH-2*r-1, r, colors[RED])
 	display.FillRectangle(0, r, WIDTH, 26, colors[RED])
 
@@ -96,28 +98,51 @@ func myNameIs(name string) {
 	display.FillRectangle(0, HEIGHT-2*r-1, WIDTH, r, colors[RED])
 
 	// top text : my NAME is
-	w32, _ := tinyfont.LineWidth(&freesans.Regular12pt7b, "my NAME is")
-	tinyfont.WriteLine(&display, &freesans.Regular12pt7b, (WIDTH-int16(w32))/2, 24, "my NAME is", colors[WHITE])
+	w32, _ := tinyfont.LineWidth(&freesans.Bold12pt7b, "HELLO")
+
+	// top band white
+	display.FillRectangle(30, 4, int16(w32+20), 25, colors[WHITE])
+
+	// my name is text
+	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32))/2, 24, "HELLO", colors[BLACK])
 
 	// middle text
 	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, name)
 	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 72, name, colors[BLACK])
 
 	// gophers
-	tinyfont.WriteLineColors(&display, &gophers.Regular32pt, WIDTH-48, 110, "BE", []color.RGBA{getRainbowRGB(100), getRainbowRGB(200)})
+	//tinyfont.WriteLine(&display, &gophers.Regular32pt, WIDTH-48, 110, "BE", []color.RGBA{getRainbowRGB(100), getRainbowRGB(200)})
 }
 
 func myNameIsRainbow(name string) {
 	myNameIs(name)
+	gophersAvail := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+	oldGophers := ""
 
-	w32, _ := tinyfont.LineWidth(&freesans.Bold9pt7b, name)
-	for i := 0; i < 230; i++ {
-		tinyfont.WriteLineColors(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 72, name, rainbow[i:])
+	w32, _ := tinyfont.LineWidth(&freesans.Bold12pt7b, name)
+	old_gopher_x := int16(0)
+	for {
+		// pick gophers for animation
+		gopher1 := gophersAvail[rand.Intn(len(gophersAvail))]
+		gopher2 := gophersAvail[rand.Intn(len(gophersAvail))]
+		selectedGophers := fmt.Sprintf("%s%s", gopher1, gopher2)
+
+		for i := 0; i < 40; i++ {
+			x := int16((WIDTH + 48) - i*7)
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32))/2, 72, name, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &gophers.Regular32pt, old_gopher_x, 110, oldGophers, colors[BLACK])
+			tinyfont.WriteLine(&display, &gophers.Regular32pt, x, 110, selectedGophers, getRainbowRGB(uint8((i+10)*12)))
+			old_gopher_x = x
+			oldGophers = selectedGophers
+		}
 		pressed, _ = buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
 			quit = true
 			break
 		}
+		//if quit == true {
+		//break
+		//}
 	}
 }
 
@@ -145,7 +170,7 @@ func blinky(topline, bottomline string) {
 }
 
 func blinkyRainbow(topline, bottomline string) {
-	display.FillScreen(colors[WHITE])
+	display.FillScreen(colors[BLACK])
 
 	// calculate the width of the text so we could center them later
 	w32top, _ := tinyfont.LineWidth(&freesans.Bold12pt7b, topline)
