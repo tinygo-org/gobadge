@@ -29,6 +29,27 @@ const (
 	HEIGHTBLOCKS = 13
 )
 
+var (
+	// Those variable are there for a more easy reading of the apple shape.
+	re = colors[APPLE] // red
+	bk = colors[BCK]   // background
+	gr = colors[SNAKE] // green
+
+	// The array is split for a visual purpose too.
+	appleBuf = []color.RGBA{
+		bk, bk, bk, bk, bk, gr, gr, gr, bk, bk,
+		bk, bk, bk, bk, gr, gr, gr, bk, bk, bk,
+		bk, bk, bk, re, gr, gr, re, bk, bk, bk,
+		bk, bk, re, re, re, re, re, re, bk, bk,
+		bk, re, re, re, re, re, re, re, re, bk,
+		bk, re, re, re, re, re, re, re, re, bk,
+		bk, re, re, re, re, re, re, re, re, bk,
+		bk, bk, re, re, re, re, re, re, bk, bk,
+		bk, bk, bk, re, re, re, re, bk, bk, bk,
+		bk, bk, bk, bk, bk, bk, bk, bk, bk, bk,
+	}
+)
+
 type Snake struct {
 	body      [208][2]int16
 	length    int16
@@ -42,103 +63,103 @@ type Game struct {
 	status         uint8
 }
 
-func (game *Game) Start() {
-	game.status = START
+func (g *Game) Start() {
+	g.status = START
 	scoreStr := []byte("SCORE: 123")
-	display.FillScreen(game.colors[BCK])
+	display.FillScreen(g.colors[BCK])
 	play := true
 	for play {
-		switch game.status {
+		switch g.status {
 		case START:
-			display.FillScreen(game.colors[BCK])
+			display.FillScreen(g.colors[BCK])
 
-			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, 0, 50, "SNAKE", game.colors[TEXT])
-			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, 0, 50, "SNAKE", g.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", g.colors[TEXT])
 
 			time.Sleep(2 * time.Second)
-			for game.status == START {
+			for g.status == START {
 				pressed, _ := buttons.Read8Input()
 				if pressed&machine.BUTTON_START_MASK > 0 {
-					game.status = PLAY
+					g.status = PLAY
 				}
 				if pressed&machine.BUTTON_SELECT_MASK > 0 {
-					game.status = QUIT
+					g.status = QUIT
 				}
 
 			}
 			break
 		case GAMEOVER:
-			display.FillScreen(game.colors[BCK])
+			display.FillScreen(g.colors[BCK])
 
-			scoreStr[7] = 48 + uint8((game.snake.length-3)/100)
-			scoreStr[8] = 48 + uint8(((game.snake.length-3)/10)%10)
-			scoreStr[9] = 48 + uint8((game.snake.length-3)%10)
+			scoreStr[7] = 48 + uint8((g.snake.length-3)/100)
+			scoreStr[8] = 48 + uint8(((g.snake.length-3)/10)%10)
+			scoreStr[9] = 48 + uint8((g.snake.length-3)%10)
 
-			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 50, "GAME OVER", game.colors[TEXT])
-			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", game.colors[TEXT])
-			tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), game.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 50, "GAME OVER", g.colors[TEXT])
+			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", g.colors[TEXT])
+			tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), g.colors[TEXT])
 
 			time.Sleep(2 * time.Second)
-			for game.status == GAMEOVER {
+			for g.status == GAMEOVER {
 				pressed, _ := buttons.Read8Input()
 				if pressed&machine.BUTTON_START_MASK > 0 {
-					game.status = START
+					g.status = START
 				}
 				if pressed&machine.BUTTON_SELECT_MASK > 0 {
-					game.status = QUIT
+					g.status = QUIT
 				}
 
 			}
 			break
 		case PLAY:
-			display.FillScreen(game.colors[BCK])
+			display.FillScreen(g.colors[BCK])
 
-			game.snake.body[0][0] = 0
-			game.snake.body[0][1] = 3
-			game.snake.body[1][0] = 0
-			game.snake.body[1][1] = 2
-			game.snake.body[2][0] = 0
-			game.snake.body[2][1] = 1
+			g.snake.body[0][0] = 0
+			g.snake.body[0][1] = 3
+			g.snake.body[1][0] = 0
+			g.snake.body[1][1] = 2
+			g.snake.body[2][0] = 0
+			g.snake.body[2][1] = 1
 
-			game.snake.length = 3
-			game.snake.direction = 3
-			game.drawSnake()
-			game.createApple()
+			g.snake.length = 3
+			g.snake.direction = 3
+			g.drawSnake()
+			g.createApple()
 			time.Sleep(2000 * time.Millisecond)
-			for game.status == PLAY {
+			for g.status == PLAY {
 
 				// Faster
 				pressed, _ := buttons.Read8Input()
 				if pressed&machine.BUTTON_LEFT_MASK > 0 {
-					if game.snake.direction != 3 {
-						game.snake.direction = 0
+					if g.snake.direction != 3 {
+						g.snake.direction = 0
 					}
 				}
 				if pressed&machine.BUTTON_UP_MASK > 0 {
-					if game.snake.direction != 2 {
-						game.snake.direction = 1
+					if g.snake.direction != 2 {
+						g.snake.direction = 1
 					}
 				}
 				if pressed&machine.BUTTON_DOWN_MASK > 0 {
-					if game.snake.direction != 1 {
-						game.snake.direction = 2
+					if g.snake.direction != 1 {
+						g.snake.direction = 2
 					}
 				}
 				if pressed&machine.BUTTON_RIGHT_MASK > 0 {
-					if game.snake.direction != 0 {
-						game.snake.direction = 3
+					if g.snake.direction != 0 {
+						g.snake.direction = 3
 					}
 				}
 				if pressed&machine.BUTTON_SELECT_MASK > 0 {
-					game.status = QUIT
+					g.status = QUIT
 				}
-				game.moveSnake()
+				g.moveSnake()
 				time.Sleep(100 * time.Millisecond)
 			}
 
 			break
 		case QUIT:
-			display.FillScreen(game.colors[BCK])
+			display.FillScreen(g.colors[BCK])
 			play = false
 			break
 		}
@@ -216,25 +237,8 @@ func (g *Game) moveSnake() {
 	g.snake.body[0][1] = y
 }
 
-func (game *Game) drawApple(x, y int16) {
-	// Those variable are there for a more easy reading of the apple shape
-	r := game.colors[APPLE]
-	b := game.colors[BCK]
-	g := game.colors[SNAKE]
-	// The array is split for a visual purpose too
-	applebuffer := []color.RGBA{
-		b, b, b, b, b, g, g, g, b, b,
-		b, b, b, b, g, g, g, b, b, b,
-		b, b, b, r, g, g, r, b, b, b,
-		b, b, r, r, r, r, r, r, b, b,
-		b, r, r, r, r, r, r, r, r, b,
-		b, r, r, r, r, r, r, r, r, b,
-		b, r, r, r, r, r, r, r, r, b,
-		b, b, r, r, r, r, r, r, b, b,
-		b, b, b, r, r, r, r, b, b, b,
-		b, b, b, b, b, b, b, b, b, b,
-	}
-	display.FillRectangleWithBuffer(10*x, 10*y, 10, 10, applebuffer)
+func (g *Game) drawApple(x, y int16) {
+	display.FillRectangleWithBuffer(10*x, 10*y, 10, 10, appleBuf)
 }
 
 func (g *Game) drawSnake() {
