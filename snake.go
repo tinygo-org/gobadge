@@ -29,6 +29,11 @@ const (
 	HEIGHTBLOCKS = 13
 )
 
+type Point struct {
+	x int16
+	y int16
+}
+
 var (
 	// Those variable are there for a more easy reading of the apple shape.
 	re = colors[APPLE] // red
@@ -51,15 +56,20 @@ var (
 )
 
 type Snake struct {
-	body      [208][2]int16
+	body      [208]Point
 	length    int16
+	// direction should take one onf the folloing positions:
+	// 0 for left
+	// 1 for up
+	// 2 for down
+	// 3 for right
 	direction int16
 }
 
 type Game struct {
 	colors         []color.RGBA
 	snake          Snake
-	appleX, appleY int16
+	apple 		   Point
 	status         uint8
 }
 
@@ -114,12 +124,12 @@ func (g *Game) Start() {
 		case PLAY:
 			display.FillScreen(g.colors[BCK])
 
-			g.snake.body[0][0] = 0
-			g.snake.body[0][1] = 3
-			g.snake.body[1][0] = 0
-			g.snake.body[1][1] = 2
-			g.snake.body[2][0] = 0
-			g.snake.body[2][1] = 1
+			g.snake.body[0].x = 0
+			g.snake.body[0].y = 3
+			g.snake.body[1].x = 0
+			g.snake.body[1].y = 2
+			g.snake.body[2].x = 0
+			g.snake.body[2].y = 1
 
 			g.snake.length = 3
 			g.snake.direction = 3
@@ -168,7 +178,7 @@ func (g *Game) Start() {
 
 func (g *Game) collisionWithSnake(x, y int16) bool {
 	for i := int16(0); i < g.snake.length; i++ {
-		if x == g.snake.body[i][0] && y == g.snake.body[i][1] {
+		if x == g.snake.body[i].x && y == g.snake.body[i].y {
 			return true
 		}
 	}
@@ -176,18 +186,18 @@ func (g *Game) collisionWithSnake(x, y int16) bool {
 }
 
 func (g *Game) createApple() {
-	g.appleX = int16(rand.Int31n(16))
-	g.appleY = int16(rand.Int31n(13))
-	for g.collisionWithSnake(g.appleX, g.appleY) {
-		g.appleX = int16(rand.Int31n(16))
-		g.appleY = int16(rand.Int31n(13))
+	g.apple.x = int16(rand.Int31n(16))
+	g.apple.y = int16(rand.Int31n(13))
+	for g.collisionWithSnake(g.apple.x, g.apple.y) {
+		g.apple.x = int16(rand.Int31n(16))
+		g.apple.y = int16(rand.Int31n(13))
 	}
-	g.drawApple(g.appleX, g.appleY)
+	g.drawApple(g.apple)
 }
 
 func (g *Game) moveSnake() {
-	x := g.snake.body[0][0]
-	y := g.snake.body[0][1]
+	x := g.snake.body[0].x
+	y := g.snake.body[0].y
 
 	switch g.snake.direction {
 	case 0:
@@ -222,28 +232,28 @@ func (g *Game) moveSnake() {
 
 	// draw head
 	g.drawSnakePartial(x, y, g.colors[SNAKE])
-	if x == g.appleX && y == g.appleY {
+	if x == g.apple.x && y == g.apple.y {
 		g.snake.length++
 		g.createApple()
 	} else {
 		// remove tail
-		g.drawSnakePartial(g.snake.body[g.snake.length-1][0], g.snake.body[g.snake.length-1][1], g.colors[BCK])
+		g.drawSnakePartial(g.snake.body[g.snake.length-1].x, g.snake.body[g.snake.length-1].y, g.colors[BCK])
 	}
 	for i := g.snake.length - 1; i > 0; i-- {
-		g.snake.body[i][0] = g.snake.body[i-1][0]
-		g.snake.body[i][1] = g.snake.body[i-1][1]
+		g.snake.body[i].x = g.snake.body[i-1].x
+		g.snake.body[i].y = g.snake.body[i-1].y
 	}
-	g.snake.body[0][0] = x
-	g.snake.body[0][1] = y
+	g.snake.body[0].x = x
+	g.snake.body[0].y = y
 }
 
-func (g *Game) drawApple(x, y int16) {
-	display.FillRectangleWithBuffer(10*x, 10*y, 10, 10, appleBuf)
+func (g *Game) drawApple(p Point) {
+	display.FillRectangleWithBuffer(10*p.x, 10*p.y, 10, 10, appleBuf)
 }
 
 func (g *Game) drawSnake() {
 	for i := int16(0); i < g.snake.length; i++ {
-		g.drawSnakePartial(g.snake.body[i][0], g.snake.body[i][1], g.colors[SNAKE])
+		g.drawSnakePartial(g.snake.body[i].x, g.snake.body[i].y, g.colors[SNAKE])
 	}
 }
 
