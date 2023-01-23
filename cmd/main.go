@@ -11,6 +11,7 @@ const (
 	gopherconEU22Logo = "./cmd/assets/gopherconeu-2022.jpg"
 	gopherconUK22Logo = "./cmd/assets/gopherconuk-2022.jpg"
 	gopherconUS22Logo = "./cmd/assets/gopherconus-2022.jpg"
+	fosdem23Logo      = "./cmd/assets/fosdem-2023.jpg"
 	tinygoLogo        = "./cmd/assets/tinygo.jpg"
 )
 
@@ -30,9 +31,10 @@ func main() {
 
 func confs() map[string]string {
 	return map[string]string{
-		"gceu22": gopherconEU22Logo,
-		"gcuk22": gopherconUK22Logo,
-		"gcus22": gopherconUS22Logo,
-		"tinygo": tinygoLogo,
+		"gceu22":   gopherconEU22Logo,
+		"gcuk22":   gopherconUK22Logo,
+		"gcus22":   gopherconUS22Logo,
+		"dosdem23": fosdem23Logo,
+		"tinygo":   tinygoLogo,
 	}
 }

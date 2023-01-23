@@ -20,5 +20,10 @@ prepare-tinygo:
 
 flash-tinygo: prepare-tinygo perform-flash
 
+prepare-fosdem:
+	go run cmd/main.go -conf=fosdem23
+
+flash-fosdem: prepare-tinygo perform-flash
+
 perform-flash:
 	tinygo flash -size short -target pybadge -ldflags="-X main.YourName='$(NAME)' -X main.YourTitle1='$(TITLE1)' -X main.YourTitle2='$(TITLE2)'" .
