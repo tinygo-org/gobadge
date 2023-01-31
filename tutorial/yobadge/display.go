@@ -5,12 +5,21 @@ import (
 
 	"image/color"
 	"strings"
-	"time"
 
 	"tinygo.org/x/drivers/st7735"
 	"tinygo.org/x/tinyfont/proggy"
 	"tinygo.org/x/tinyterm"
 )
+
+var logo = `        
+  ><<      ><<          
+   ><<    ><<           
+    ><< ><<      ><<    
+      ><<      ><<  ><< 
+      ><<     ><<    ><<
+      ><<      ><<  ><< 
+      ><<        ><<    
+`
 
 var (
 	display  = st7735.New(machine.SPI1, machine.TFT_RST, machine.TFT_DC, machine.TFT_CS, machine.TFT_LITE)
@@ -26,16 +35,6 @@ var (
 
 	displayChan = make(chan []byte, 10)
 )
-
-var logo = `        
-  ><<      ><<          
-   ><<    ><<           
-    ><< ><<      ><<    
-      ><<      ><<  ><< 
-      ><<     ><<    ><<
-      ><<      ><<  ><< 
-      ><<        ><<    
-`
 
 func handleDisplay() {
 	machine.SPI1.Configure(machine.SPIConfig{
@@ -61,14 +60,8 @@ func handleDisplay() {
 	showSplash()
 
 	for {
-		select {
-		case data := <-displayChan:
-			terminal.Write([]byte("\r\n"))
-			terminal.Write(data)
-		default:
-		}
-
-		time.Sleep(10 * time.Millisecond)
+		terminal.Write([]byte("\r\n"))
+		terminal.Write(<-displayChan)
 	}
 }
 
@@ -79,7 +72,7 @@ func showSplash() {
 }
 
 func showError(err error) {
-	displayChan <- []byte(err.Error())
+	displayChan <- []byte("err.Error()")
 }
 
 func showMessage(msg []byte) {

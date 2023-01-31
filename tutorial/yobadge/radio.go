@@ -2,15 +2,16 @@ package main
 
 import (
 	"machine"
-	"time"
+
+	//	"time"
 
 	"tinygo.org/x/drivers/lora"
 	"tinygo.org/x/drivers/sx127x"
 )
 
 const (
-	rxTimeoutMs = 1000
-	txTimeoutMs = 5000
+	rxTimeoutMs = 2000
+	txTimeoutMs = 2000
 )
 
 var (
@@ -58,18 +59,17 @@ func startLora() {
 
 func loraRX() {
 	for {
-		start := time.Now()
-
-		for time.Since(start) < 10*time.Second {
-			buf, err := loraRadio.Rx(rxTimeoutMs)
-			if err != nil {
-				println("RX Error: ", err)
-			}
-
-			if buf != nil {
-				println("Packet Received: len=", len(buf), string(buf))
-				showMessage(buf)
-			}
+		buf, err := loraRadio.Rx(rxTimeoutMs)
+		switch {
+		case err != nil:
+			println("RX Error: ", err)
+			showError(err)
+		case buf == nil || len(buf) == 0:
+			// empty buffer, do nothing
+		case buf[0] == '@' && buf[len(buf)-1] == '!':
+			showMessage(buf[:len(buf)-1])
+		default:
+			println("Unknown packet received: len=", len(buf))
 		}
 	}
 }

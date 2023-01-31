@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	yourname string
-	lastTime = time.Now()
+	yourname       string
+	lastButtonPush time.Time
 )
 
 func main() {
@@ -24,6 +24,8 @@ func main() {
 	startLora()
 	go loraRX()
 
+	lastButtonPush = time.Now()
+
 	for {
 		buttons.ReadInput()
 
@@ -37,22 +39,23 @@ func main() {
 			sendMessage("ho")
 		}
 
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 
 func sendMessage(msg string) {
 	// simple debounce
-	if time.Since(lastTime) < 1000*time.Millisecond {
+	if time.Since(lastButtonPush) < 1*time.Second {
 		return
 	}
 
-	lastTime = time.Now()
+	lastButtonPush = time.Now()
 
-	err := loraTX([]byte(yourname + ":" + msg))
+	err := loraTX([]byte(yourname + ": " + msg + "!"))
 	if err != nil {
+		println(err.Error())
 		showError(err)
 	}
 
-	showMessage([]byte(yourname + ":" + msg))
+	showMessage([]byte(yourname + ": " + msg))
 }
