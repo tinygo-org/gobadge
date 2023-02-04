@@ -34,7 +34,7 @@ func confs() map[string]string {
 		"gceu22":   gopherconEU22Logo,
 		"gcuk22":   gopherconUK22Logo,
 		"gcus22":   gopherconUS22Logo,
-		"dosdem23": fosdem23Logo,
+		"fosdem23": fosdem23Logo,
 		"tinygo":   tinygoLogo,
 	}
 }
