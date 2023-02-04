@@ -63,7 +63,7 @@ func Badge() {
 		if quit {
 			break
 		}
-		blinkyRainbow("Hack Session", "Oct 6 All Day")
+		blinkyRainbow("Go Devroom", "UD2.218a")
 		if quit {
 			break
 		}
