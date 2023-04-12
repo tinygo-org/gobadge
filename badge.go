@@ -9,6 +9,8 @@ import (
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
 	"tinygo.org/x/tinyfont/gophers"
+
+	qrcode "github.com/skip2/go-qrcode"
 )
 
 const (
@@ -37,7 +39,7 @@ var pressed uint8
 var quit bool
 
 func Badge() {
-	setNameAndTitle()
+	setCustomData()
 	quit = false
 	display.FillScreen(colors[BLACK])
 
@@ -51,19 +53,23 @@ func Badge() {
 		if quit {
 			break
 		}
-		scroll("This badge", "runs", "TINYGO")
-		if quit {
-			break
-		}
 		myNameIsRainbow(YourName)
 		if quit {
 			break
 		}
-		blinkyRainbow(YourTitle1, YourTitle2)
+		blinkyRainbow(YourTitleA1, YourTitleA2)
 		if quit {
 			break
 		}
-		blinkyRainbow("Go Devroom", "UD2.218a")
+		scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom)
+		if quit {
+			break
+		}
+		QR(YourQRText)
+		if quit {
+			break
+		}
+		blinkyRainbow(YourTitleB1, YourTitleB2)
 		if quit {
 			break
 		}
@@ -196,16 +202,71 @@ func logo() {
 	time.Sleep(logoDisplayTime)
 }
 
-func setNameAndTitle() {
+func QR(msg string) {
+	qr, err := qrcode.New(msg, qrcode.Medium)
+	if err != nil {
+		println(err, 123)
+	}
+
+	qrbytes := qr.Bitmap()
+	size := int16(len(qrbytes))
+
+	factor := int16(HEIGHT / len(qrbytes))
+
+	bx := (WIDTH - size*factor) / 2
+	by := (HEIGHT - size*factor) / 2
+	display.FillScreen(color.RGBA{109, 0, 140, 255})
+	for y := int16(0); y < size; y++ {
+		for x := int16(0); x < size; x++ {
+			if qrbytes[y][x] {
+				display.FillRectangle(bx+x*factor, by+y*factor, factor, factor, colors[0])
+			} else {
+				display.FillRectangle(bx+x*factor, by+y*factor, factor, factor, colors[1])
+			}
+		}
+	}
+
+	time.Sleep(logoDisplayTime)
+	pressed, _ = buttons.Read8Input()
+	if pressed&machine.BUTTON_SELECT_MASK > 0 {
+		quit = true
+	}
+}
+
+func setCustomData() {
 	if YourName == "" {
 		YourName = DefaultName
 	}
 
-	if YourTitle1 == "" {
-		YourTitle1 = DefaultTitle1
+	if YourTitleA1 == "" {
+		YourTitleA1 = DefaultTitleA1
 	}
 
-	if YourTitle2 == "" {
-		YourTitle2 = DefaultTitle2
+	if YourTitleA2 == "" {
+		YourTitleA2 = DefaultTitleA2
+	}
+
+	if YourTitleB1 == "" {
+		YourTitleB1 = DefaultTitleB1
+	}
+
+	if YourTitleB2 == "" {
+		YourTitleB2 = DefaultTitleB2
+	}
+
+	if YourMarqueeTop == "" {
+		YourMarqueeTop = DefaultMarqueeTop
+	}
+
+	if YourMarqueeMiddle == "" {
+		YourMarqueeMiddle = DefaultMarqueeMiddle
+	}
+
+	if YourMarqueeBottom == "" {
+		YourMarqueeBottom = DefaultMarqueeBottom
+	}
+
+	if YourQRText == "" {
+		YourQRText = DefaultQRText
 	}
 }
