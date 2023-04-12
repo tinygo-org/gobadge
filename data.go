@@ -18,6 +18,6 @@ const (
 	DefaultMarqueeMiddle = "runs"
 	DefaultMarqueeBottom = "TINYGO"
 	DefaultQRText        = "https://tinygo.org"
-	DefaultTitleB1       = "I enjoy"
+	DefaultTitleB1       = "I like"
 	DefaultTitleB2       = "TINYGO"
 )
