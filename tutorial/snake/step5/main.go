@@ -15,6 +15,13 @@ const (
 	HEIGHTBLOCKS = 13
 )
 
+const (
+	SnakeUp = iota
+	SnakeDown
+	SnakeLeft
+	SnakeRight
+)
+
 var display st7735.Device
 
 type Snake struct {
@@ -61,26 +68,25 @@ func main() {
 	display.FillScreen(black)
 
 	drawSnake()
-	createApple()
 	for {
 		buttons.ReadInput()
 		switch {
 		// add some checks so the snake doesn't go backwards
 		case buttons.Pins[shifter.BUTTON_LEFT].Get():
-			if snake.direction != 3 {
-				snake.direction = 0
+			if snake.direction != SnakeRight {
+				snake.direction = SnakeLeft
 			}
 		case buttons.Pins[shifter.BUTTON_UP].Get():
-			if snake.direction != 2 {
-				snake.direction = 1
+			if snake.direction != SnakeDown {
+				snake.direction = SnakeUp
 			}
 		case buttons.Pins[shifter.BUTTON_DOWN].Get():
-			if snake.direction != 1 {
-				snake.direction = 2
+			if snake.direction != SnakeUp {
+				snake.direction = SnakeDown
 			}
 		case buttons.Pins[shifter.BUTTON_RIGHT].Get():
-			if snake.direction != 0 {
-				snake.direction = 3
+			if snake.direction != SnakeLeft {
+				snake.direction = SnakeRight
 			}
 		}
 
@@ -95,16 +101,16 @@ func moveSnake() {
 	y := snake.body[0][1]
 
 	switch snake.direction {
-	case 0:
+	case SnakeLeft:
 		x--
 		break
-	case 1:
+	case SnakeUp:
 		y--
 		break
-	case 2:
+	case SnakeDown:
 		y++
 		break
-	case 3:
+	case SnakeRight:
 		x++
 		break
 	}

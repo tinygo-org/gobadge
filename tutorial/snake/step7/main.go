@@ -4,6 +4,7 @@ import (
 	"image/color"
 	"machine"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"tinygo.org/x/tinyfont"
@@ -16,6 +17,13 @@ import (
 const (
 	WIDTHBLOCKS  = 16
 	HEIGHTBLOCKS = 13
+)
+
+const (
+	SnakeUp = iota
+	SnakeDown
+	SnakeLeft
+	SnakeRight
 )
 
 var display st7735.Device
@@ -73,20 +81,20 @@ func main() {
 		switch {
 		// add some checks so the snake doesn't go backwards
 		case buttons.Pins[shifter.BUTTON_LEFT].Get():
-			if snake.direction != 3 {
-				snake.direction = 0
+			if snake.direction != SnakeRight {
+				snake.direction = SnakeLeft
 			}
 		case buttons.Pins[shifter.BUTTON_UP].Get():
-			if snake.direction != 2 {
-				snake.direction = 1
+			if snake.direction != SnakeDown {
+				snake.direction = SnakeUp
 			}
 		case buttons.Pins[shifter.BUTTON_DOWN].Get():
-			if snake.direction != 1 {
-				snake.direction = 2
+			if snake.direction != SnakeUp {
+				snake.direction = SnakeDown
 			}
 		case buttons.Pins[shifter.BUTTON_RIGHT].Get():
-			if snake.direction != 0 {
-				snake.direction = 3
+			if snake.direction != SnakeLeft {
+				snake.direction = SnakeRight
 			}
 		}
 
@@ -101,16 +109,16 @@ func moveSnake() {
 	y := snake.body[0][1]
 
 	switch snake.direction {
-	case 0:
+	case SnakeLeft:
 		x--
 		break
-	case 1:
+	case SnakeUp:
 		y--
 		break
-	case 2:
+	case SnakeDown:
 		y++
 		break
-	case 3:
+	case SnakeRight:
 		x++
 		break
 	}
@@ -190,14 +198,11 @@ func collisionWithSnake(x, y int16) bool {
 func gameOver() {
 	display.FillScreen(black)
 
-	scoreStr := []byte("SCORE: 123")
-	scoreStr[7] = 48 + uint8((snake.length-3)/100)
-	scoreStr[8] = 48 + uint8(((snake.length-3)/10)%10)
-	scoreStr[9] = 48 + uint8((snake.length-3)%10)
+	scoreStr := strconv.Itoa(int(snake.length - 3))
 
 	tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 50, "GAME OVER", white)
 	tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press START", white)
-	tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), white)
+	tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, "SCORE: "+scoreStr, white)
 
 	time.Sleep(2 * time.Second)
 
@@ -217,7 +222,7 @@ func gameOver() {
 			{0, 1},
 		},
 		length:    3,
-		direction: 3,
+		direction: SnakeRight,
 	}
 	display.FillScreen(black)
 	drawSnake()
