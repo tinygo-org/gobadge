@@ -26,4 +26,4 @@ prepare-fosdem:
 flash-fosdem: prepare-fosdem perform-flash
 
 perform-flash:
-	tinygo flash -size short -target pybadge -ldflags="-X main.YourName='$(NAME)' -X main.YourTitle1='$(TITLE1)' -X main.YourTitle2='$(TITLE2)'" .
+	tinygo flash -size short -target pybadge -ldflags="-X main.YourName='$(NAME)' -X main.YourTitleA1='$(TITLE1)' -X main.YourTitleA2='$(TITLE2)'" .
