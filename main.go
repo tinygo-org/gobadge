@@ -26,16 +26,15 @@ var snakeGame = Game{
 		color.RGBA{160, 160, 160, 255},
 	},
 	snake: Snake{
-		body: [208][2]int16{
-			{0, 3},
-			{0, 2},
-			{0, 1},
+		body: [208]Point{
+			{x: 0, y: 3},
+			{x: 0, y: 2},
+			{x: 0, y: 1},
 		},
 		length:    3,
 		direction: 3,
 	},
-	appleX: -1,
-	appleY: -1,
+	apple: Point{-1, -1},
 	status: START,
 }
 
