@@ -10,8 +10,13 @@ prepare-gcuk:
 
 flash-gcuk: prepare-gcuk perform-flash
 
-prepare-gcus:
+prepare-gcus22:
 	go run cmd/main.go -conf=gcus22
+
+flash-gcus22: prepare-gcus22 perform-flash
+
+prepare-gcus:
+	go run cmd/main.go -conf=gcus23
 
 flash-gcus: prepare-gcus perform-flash
 
