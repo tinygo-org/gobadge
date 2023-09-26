@@ -2,7 +2,7 @@ package main
 
 // Replace with your data by using -ldflags like this:
 //
-// tinygo flash -target pybadge -ldflags="-X main.YourName=@myontwitter -X main.YourTitle1='Amazing human' -X main.YourTitle2='also kind'"
+// tinygo flash -target gobadge -ldflags="-X main.YourName=@myontwitter -X main.YourTitle1='Amazing human' -X main.YourTitle2='also kind'"
 //
 // See Makefile for more info.
 var (
