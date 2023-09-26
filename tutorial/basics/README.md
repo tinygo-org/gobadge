@@ -50,7 +50,7 @@ This tests that you can compile and flash your PyBadge with TinyGo code, by blin
 
 
 ```
-tinygo flash -target pybadge ./step0
+tinygo flash -target gobadge ./step0
 ```
 
 ![flashing the board](../../assets/getting_flashed.jpg)
@@ -65,7 +65,7 @@ Once the PyBadge is flashed correctly, the built-in LED labeled "D13" (on the ba
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step1
+tinygo flash -target gobadge ./step1
 ```
 
 When you press the START button, the built-in LED should turn on.
@@ -81,7 +81,7 @@ the _SELECT_ button is pressed instead of the _START_ button.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step2
+tinygo flash -target gobadge ./step2
 ```
 
 ![step 2 location](./assets/step2.jpg)
@@ -98,7 +98,7 @@ The 5 neopixels should light up green and red alternatively.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step3
+tinygo flash -target gobadge ./step3
 ```
 
 The 5 neopixels should light up in different colors depending on which button you press.
@@ -116,7 +116,7 @@ After deploying it should look like this:
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step4
+tinygo flash -target gobadge ./step4
 ```
 
 
@@ -125,7 +125,7 @@ tinygo flash -target pybadge ./step4
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step5/main.go
+tinygo flash -target gobadge ./step5/main.go
 ```
 
 The message "Hello Gophers!" should appear on the display.
@@ -139,7 +139,7 @@ The message "Hello Gophers!" should appear on the display.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step6/main.go
+tinygo flash -target gobadge ./step6/main.go
 ```
 
 ![step6](./assets/step6.jpg)
@@ -154,7 +154,7 @@ When a button is pressed a ring will be shown around its corresponding circle.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step7
+tinygo flash -target gobadge ./step7
 ```
 
 ![step7](./assets/step7.jpg)
@@ -166,7 +166,7 @@ The display will show a bar for each X,Y,Z axis. Move the Pybadge to see it in a
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step8/main.go
+tinygo flash -target gobadge ./step8/main.go
 ```
 
 Press the buttons and create your melody.

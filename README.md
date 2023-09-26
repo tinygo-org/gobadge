@@ -1,6 +1,6 @@
 # GoBadge
 
-TinyGo powered badge using the Adafruit Pybadge hardware.
+TinyGo powered badge using the Adafruit Pybadge hardware aka "GoBadge".
 
 https://www.adafruit.com/product/4200
 
@@ -12,13 +12,16 @@ https://www.adafruit.com/product/4200
 
 - Change directories into the directory with the repo
 
-- Connect your Pybadge to your computer using a USB cable
+- Connect your Gobadge to your computer using a USB cable
 
 - Make sure to turn on the badge, flip the switch at the top of the board next to `select` to the `on` position. The screen should light up and might be showing a sine wave display (if it was not already flashed to something else).
 ![location of on off switch](assets/on_off.jpg "on off switch location")
 
+***Important Note***
 
-- Run this command to compile and flash the code to your Pybadge:
+The first time you flash your new GoBadge, you will probably need to double-click the "Reset" button located on the back of the badge in order to put the badge into bootloader mode. This will only need to be done once on brand new badges, after that you can flash it normally.
+
+- Run this command to compile and flash the code to your Gobadge:
 
 If you are running Mac or Linux, or have make installed you can run the following:
 
@@ -29,7 +32,7 @@ make flash
 otherwise run tinygo directly
 
 ```
-tinygo flash -target pybadge .
+tinygo flash -target gobadge .
 ```
 
 Note: if you get a `permision denied` error; please, consult this [page](https://tinygo.org/docs/guides/tinygo-flash-errors/) for possible solution. You many need to restart the computer; afterward to get the group to stick.
@@ -80,7 +83,7 @@ Add a new target to the Makefile:
 ```bash
 flash-yourconf:
 	go run cmd/main.go -conf=flagLogo
-	tinygo flash -target pybadge .
+	tinygo flash -target gobadge .
 ```
 
 You can run:
