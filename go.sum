@@ -1,3 +1,5 @@
+github.com/acifani/vita v1.2.0 h1:9pS0W9FbGxfvmNiitFHYuDm1kBxuOSQozBKZFqXsmxQ=
+github.com/acifani/vita v1.2.0/go.mod h1:r5ldyqj9b7t2/sDrUcLOQbQ9g/I28JQ7nSUjvRtruyw=
 github.com/bgould/http v0.0.0-20190627042742-d268792bdee7/go.mod h1:BTqvVegvwifopl4KTEDth6Zezs9eR+lCWhvGKvkxJHE=
 github.com/eclipse/paho.mqtt.golang v1.2.0/go.mod h1:H9keYFcgq3Qr5OUJm/JZI/i6U7joQ8SYLhZwfeOo6Ts=
 github.com/frankban/quicktest v1.10.2 h1:19ARM85nVi4xH7xPXuc5eM/udya5ieh7b/Sv+d844Tk=
