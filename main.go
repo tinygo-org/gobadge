@@ -84,6 +84,9 @@ func main() {
 			Accel3D()
 			break
 		case 4:
+			GameOfLife()
+			break
+		case 5:
 			Music()
 			break
 		default:

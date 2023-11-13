@@ -18,6 +18,7 @@ func menu() int16 {
 		"Snake",
 		"Rainbow LEDs",
 		"Accelerometer",
+		"Game of Life",
 		"Music!",
 	}
 
