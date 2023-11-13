@@ -30,5 +30,10 @@ prepare-fosdem:
 
 flash-fosdem: prepare-fosdem perform-flash
 
+prepare-golab:
+	go run cmd/main.go -conf=golab
+
+flash-golab: prepare-golab perform-flash
+
 perform-flash:
 	tinygo flash -size short -target gobadge -ldflags="-X main.YourName='$(NAME)' -X main.YourTitleA1='$(TITLE1)' -X main.YourTitleA2='$(TITLE2)'" .
