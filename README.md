@@ -50,7 +50,7 @@ make flash-gcus
 make flash-gcus NAME="@TinyGolang" TITLE1="Go compiler" TITLE2="small places"
 ```
 
-# Add an new logo
+# Add a new logo
 
 - Create an image with a 160x128 pixels size, copy it into `cmd/assets` folder.  
 For the moment only jpeg images are supported.  
