@@ -52,15 +52,17 @@ func menu() int16 {
 	for {
 		pressed, _ := buttons.ReadInput()
 
-		if released && buttons.Pins[shifter.BUTTON_UP].Get() && selected > 0 {
-			selected--
+		if released && buttons.Pins[shifter.BUTTON_UP].Get(){
+			prevSel := selected
+			selected = (numOpts + selected -1) % numOpts
 			tinydraw.FilledCircle(&display, 32, 37+10*selected, 2, color.RGBA{200, 200, 0, 255})
-			tinydraw.FilledCircle(&display, 32, 37+10*(selected+1), 2, color.RGBA{255, 255, 255, 255})
+			tinydraw.FilledCircle(&display, 32, 37+10*prevSel, 2, color.RGBA{255, 255, 255, 255})
 		}
-		if released && buttons.Pins[shifter.BUTTON_DOWN].Get() && selected < (numOpts-1) {
-			selected++
+		if released && buttons.Pins[shifter.BUTTON_DOWN].Get() {
+			prevSel := selected
+			selected = (selected +1 ) % numOpts
 			tinydraw.FilledCircle(&display, 32, 37+10*selected, 2, color.RGBA{200, 200, 0, 255})
-			tinydraw.FilledCircle(&display, 32, 37+10*(selected-1), 2, color.RGBA{255, 255, 255, 255})
+			tinydraw.FilledCircle(&display, 32, 37+10*prevSel, 2, color.RGBA{255, 255, 255, 255})
 		}
 		if released && buttons.Pins[shifter.BUTTON_START].Get() {
 			break
