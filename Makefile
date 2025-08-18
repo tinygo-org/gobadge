@@ -1,5 +1,12 @@
 flash: flash-tinygo
 
+gc25: flash-gcus25
+
+prepare-gcus25:
+	go run cmd/main.go -conf=gcus25
+
+flash-gcus25: prepare-gcus25 perform-flash
+
 prepare-gceu:
 	go run cmd/main.go -conf=gceu22
 
@@ -15,10 +22,10 @@ prepare-gcus22:
 
 flash-gcus22: prepare-gcus22 perform-flash
 
-prepare-gcus:
+prepare-gcus23:
 	go run cmd/main.go -conf=gcus23
 
-flash-gcus: prepare-gcus perform-flash
+flash-gcus23: prepare-gcus23 perform-flash
 
 prepare-tinygo:
 	go run cmd/main.go -conf=tinygo
